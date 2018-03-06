@@ -1,5 +1,7 @@
 package com.sample.easypoi.util;
 
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -41,5 +43,12 @@ public class CommonUtil {
             }
         }
         return resultList;
+    }
+
+    public static List<Workbook> splitWorkbook(Workbook workbook, int startRow, int splitSize) {
+        Sheet sheet = workbook.getSheetAt(0);
+        int lastRowNum = sheet.getLastRowNum();
+        System.out.println("lastRowNum = " + lastRowNum);
+        return null;
     }
 }

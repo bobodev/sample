@@ -14,31 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
 import java.util.*;
 
 @Controller
 @RequestMapping("/easypoi/export")
-public class EasypoiController {
+public class ExportController extends BaseController {
     @Autowired
     private CommonProperties commonProperties;
 
     @Autowired
     private DataService dataService;
-
-    private void exportCommon(Workbook workbook, String filename, HttpServletResponse response) throws Exception {
-        response.setContentType("application/octet-stream");
-        String downlaodFilename = new String(filename.getBytes("UTF-8"), "iso-8859-1");
-        response.setHeader("Content-Disposition", "attachment;fileName="
-                + downlaodFilename + ".xlsx");
-        //输出流
-        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(response.getOutputStream());
-        workbook.write(bufferedOutputStream);
-        bufferedOutputStream.flush();
-        //关闭流
-        bufferedOutputStream.close();
-    }
-
 
 //    @RequestMapping("/export01")
 //    public void export01(HttpServletResponse response) throws Exception{
@@ -48,6 +33,12 @@ public class EasypoiController {
 //        this.exportCommon(workbook,"简单导出",response);
 //    }
 
+    /**
+     * 模版导出
+     *
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping("/export01")
     public void export01(HttpServletResponse response) throws Exception {
         //step1 准备数据
@@ -67,13 +58,19 @@ public class EasypoiController {
         this.exportCommon(workbook, "模版导出", response);
     }
 
+    /**
+     * 模版导出-自定义列-65535
+     *
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping("/export02")
     public void export02(HttpServletResponse response) throws Exception {
         //step1 准备数据
         List<Student> students = dataService.loadData(65535);
         //构建动态列
         boolean needName = false;
-        boolean needSex = true;
+        boolean needSex = false;
         boolean needBirthday = false;
 
         //step2 构造数据和模版
@@ -92,6 +89,12 @@ public class EasypoiController {
         this.exportCommon(workbook, "模版导出-自定义列", response);
     }
 
+    /**
+     * 模版导出-大数据量导出-500000
+     *
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping("/export03")
     public void export03(HttpServletResponse response) throws Exception {
         //step1 准备数据
@@ -121,6 +124,12 @@ public class EasypoiController {
         System.out.println("l = " + l);
     }
 
+    /**
+     * 模版导出-多sheet导出
+     *
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping("/export04")
     public void export04(HttpServletResponse response) throws Exception {
         //step1 准备数据
@@ -160,7 +169,6 @@ public class EasypoiController {
 //        Workbook workbook = ExcelExportUtil.exportExcel(map,params);
         this.exportCommon(workbook, "模版导出-多sheet", response);
     }
-
 
 
 }
