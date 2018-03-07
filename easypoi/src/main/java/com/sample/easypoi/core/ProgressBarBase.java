@@ -1,6 +1,6 @@
-package com.sample.easypoi.service;
+package com.sample.easypoi.core;
 
-public class ProgressBarBaseService {
+public class ProgressBarBase {
     private static long totalTime = 0;
     private static long remainTime = -1;
     private static long startTime = 0;
@@ -12,7 +12,7 @@ public class ProgressBarBaseService {
     private static long total = 0;
 
     public static void setTotal(long total) {
-        ProgressBarBaseService.total = total;
+        ProgressBarBase.total = total;
     }
 
     public static synchronized void addCount() {

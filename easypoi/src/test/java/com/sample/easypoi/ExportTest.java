@@ -1,10 +1,8 @@
 package com.sample.easypoi;
 
-import cn.afterturn.easypoi.cache.ExcelCache;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
-import cn.afterturn.easypoi.excel.export.template.ExcelExportOfTemplateUtil;
+import com.sample.easypoi.core.ExcelExportHelper;
 import com.sample.easypoi.model.Student;
 import com.sample.easypoi.service.DataService;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,7 +10,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-public class ExportTest extends BaseTest{
+public class ExportTest extends BaseTest {
     /**
      * 模版导出
      *
@@ -28,13 +26,13 @@ public class ExportTest extends BaseTest{
         map.put("headers", headers);
         map.put("students", students);
         map.put("title", "模版导出-学生数据");
-        String templateUrl = RESOURCE_PATH+"/template/export_01.xlsx";
+        String templateUrl = RESOURCE_PATH + "/template/export_01.xlsx";
         //step3 导出
         TemplateExportParams params = new TemplateExportParams(
                 templateUrl);
         params.setColForEach(true);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
-        this.exportCommon(workbook, RESOURCE_PATH+"/export/模版导出(test01_export).xlsx");
+        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/模版导出(test01_export).xlsx");
     }
 
     /**
@@ -46,7 +44,7 @@ public class ExportTest extends BaseTest{
     public void test02() throws Exception {
         //step1 准备数据
         List<Student> students = new DataService().loadData(65535);
-        //构建动态列
+        //构建动态列，注意false代表需要导出，true代表不需要导出
         boolean needName = false;
         boolean needSex = false;
         boolean needBirthday = false;
@@ -58,13 +56,13 @@ public class ExportTest extends BaseTest{
         map.put("needSex", needSex);
         map.put("needBirthday", needBirthday);
         map.put("title", "模版导出-自定义列-学生数据");
-        String templateUrl = RESOURCE_PATH+"/template/export_02.xlsx";
+        String templateUrl = RESOURCE_PATH + "/template/export_02.xlsx";
         //step3 导出
         TemplateExportParams params = new TemplateExportParams(
                 templateUrl);
         params.setColForEach(true);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
-        this.exportCommon(workbook, RESOURCE_PATH+"/export/模版导出-自定义列-65535(test02_export).xlsx");
+        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/模版导出-自定义列-65535(test02_export).xlsx");
     }
 
 //    /**
@@ -94,7 +92,7 @@ public class ExportTest extends BaseTest{
 //                templateUrl);
 //        params.setColForEach(true);
 //        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
-//        this.exportCommon(workbook, RESOURCE_PATH+"/export/模版导出-大数据量导出-500000(test03_export).xlsx");
+//        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH+"/export/模版导出-大数据量导出-500000(test03_export).xlsx");
 //    }
 
 
@@ -123,24 +121,16 @@ public class ExportTest extends BaseTest{
         mapTemp1.put("title2", "模版导出-多sheet2");
         map.put(0, mapTemp1);
         map.put(1, mapTemp1);
-        String templateUrl = RESOURCE_PATH+"/template/export_03.xlsx";
+        String templateUrl = RESOURCE_PATH + "/template/export_03.xlsx";
+        Integer[] sheetNum = new Integer[]{0, 1};
         //step3 导出
         TemplateExportParams params = new TemplateExportParams(
                 templateUrl);
-        Integer[] sheetNum = new Integer[]{0, 1};
         params.setSheetNum(sheetNum);
         params.setColForEach(true);
-
-        //解决源码中bug
-        Workbook wb = ExcelCache.getWorkbook(params.getTemplateUrl(), params.getSheetNum(),
-                params.isScanAllsheet());
-        ExcelExportOfTemplateUtil excelExportOfTemplateUtil = new ExcelExportOfTemplateUtil();
-        excelExportOfTemplateUtil.setExcelExportStyler((IExcelExportStyler) params.getStyle()
-                .getConstructor(Workbook.class).newInstance(wb));
-        Workbook workbook = excelExportOfTemplateUtil.createExcleByTemplate(params, map);
-
-//        Workbook workbook = ExcelExportUtil.exportExcel(map,params);//一个sheet用这个
-        this.exportCommon(workbook,  RESOURCE_PATH+"/export/模版导出-多sheet(test04_export).xlsx");
+        //解决源码中bug，使用自己封装的多sheet导出
+        Workbook workbook = ExcelExportHelper.exportExcel(params, map);
+        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/模版导出-多sheet(test04_export).xlsx");
     }
 
 }

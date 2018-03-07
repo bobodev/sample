@@ -14,6 +14,16 @@ import java.util.*;
  * Excel 导入工具类
  */
 public class ExcelImportHelper {
+    /**
+     * excel 转化为 List 集合
+     *
+     * @param file excel文件
+     * @param clazz 类名
+     * @param param 参数
+     * @param <T> 范型，用于指定类
+     * @return List 集合
+     * @throws Exception 异常类
+     */
     public static <T> List<T> transferToList(File file, Class<T> clazz, ExcelImportParam param) throws Exception {
         List<T> list = new ArrayList<>();
 
@@ -31,26 +41,15 @@ public class ExcelImportHelper {
         return list;
     }
 
-    private static  Map<String, Object> getReplaceMap(Class<?> clazz) {
-        Map<String, Object> replaceMap = new HashMap<>();
-        Field[] declaredFields = clazz.getDeclaredFields();
-        for (int i = 0; i < declaredFields.length; i++) {
-            Field declaredField = declaredFields[i];
-            if(declaredField.isAnnotationPresent(Excel.class)){
-                Excel excel = declaredField.getAnnotation(Excel.class);
-                String[] replace = excel.replace();
-                if(replace.length>0){
-                    for (String s : replace) {
-                        String[] split = s.split("_");
-                        replaceMap.put(split[0],split[1]);
-                    }
-                }
-            }
-        }
-        return replaceMap;
-    }
-
-
+    /**
+     * Row 转化为对象
+     * @param row
+     * @param clazz
+     * @param replaceMap
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
     private static <T> T transferRowToClass(Row row, Class<T> clazz,Map<String, Object> replaceMap) throws Exception {
         T o = clazz.newInstance();
         Field[] declaredFields = clazz.getDeclaredFields();
@@ -76,6 +75,39 @@ public class ExcelImportHelper {
         return o;
     }
 
+    /**
+     * 私有方法 用来处理 注解replace
+     * @param clazz
+     * @return
+     */
+    private static  Map<String, Object> getReplaceMap(Class<?> clazz) {
+        Map<String, Object> replaceMap = new HashMap<>();
+        Field[] declaredFields = clazz.getDeclaredFields();
+        for (int i = 0; i < declaredFields.length; i++) {
+            Field declaredField = declaredFields[i];
+            if(declaredField.isAnnotationPresent(Excel.class)){
+                Excel excel = declaredField.getAnnotation(Excel.class);
+                String[] replace = excel.replace();
+                if(replace.length>0){
+                    for (String s : replace) {
+                        String[] split = s.split("_");
+                        replaceMap.put(split[0],split[1]);
+                    }
+                }
+            }
+        }
+        return replaceMap;
+    }
+
+
+    /**
+     * 获取指定类型的值
+     *
+     * @param o 原始值
+     * @param type 类型
+     * @return 指定类型的值
+     * @throws Exception 异常信息
+     */
     private static Object getValByFieldType(Object o, Class<?> type) throws Exception{
         if(o==null){
             return null;
@@ -98,6 +130,12 @@ public class ExcelImportHelper {
         return o.toString();
     }
 
+    /**
+     * 获取cell的值
+     *
+     * @param cell
+     * @return
+     */
     private static Object getVal(Cell cell) {
         if(cell.getCellType() == CellType.STRING.getCode()){
             return cell.getStringCellValue();

@@ -2,12 +2,13 @@ package com.sample.easypoi;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import com.sample.easypoi.core.ExcelExportHelper;
 import com.sample.easypoi.core.ExcelImportHelper;
 import com.sample.easypoi.core.ExcelImportParam;
 import com.sample.easypoi.core.ExcelImportResult;
 import com.sample.easypoi.model.Student;
 import com.sample.easypoi.service.DataService;
-import com.sample.easypoi.service.ProgressBarService;
+import com.sample.easypoi.service.ProgressBar;
 import com.sample.easypoi.util.CommonUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class ImportProgressBarTest extends BaseTest {
         ExcelImportParam excelImportParam = new ExcelImportParam();
         excelImportParam.setStartRowNum(2);
         List<Student> students = ExcelImportHelper.transferToList(file, Student.class, excelImportParam);
-        ProgressBarService.setTotal(students.size());
+        ProgressBar.setTotal(students.size());
         List<List<Student>> sublist = CommonUtil.sublist(students, 20);
         List<Future<ExcelImportResult<Student>>> futures = new ArrayList<>();
         for (List<Student> studentList : sublist) {
@@ -54,10 +55,7 @@ public class ImportProgressBarTest extends BaseTest {
         if (excelImportResult.isVerifyFail()) {
             this.exportErrorWorkBook(excelImportResult.getFailList());
         }
-
-
     }
-
 
     private <T> ExcelImportResult<T> dealFutureResult(List<Future<ExcelImportResult<T>>> futures) throws Exception {
         ExcelImportResult<T> excelImportResult = new ExcelImportResult();
@@ -106,7 +104,7 @@ public class ImportProgressBarTest extends BaseTest {
                 templateUrl);
         params.setColForEach(true);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
-        this.exportCommon(workbook, RESOURCE_PATH + "/export/模版导出-错误数据(test01_ImportProgressBar).xlsx");
+        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/模版导出-错误数据(test01_ImportProgressBar).xlsx");
     }
 
 }

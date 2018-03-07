@@ -44,7 +44,7 @@ public class DataService {
                 //业务验证
                 successList.add(student);
             }
-            ProgressBarService.addCount();
+            ProgressBar.addCount();
             Thread.sleep(200);
         }
         excelImportResult.setFailList(failList);
@@ -55,11 +55,11 @@ public class DataService {
 
     @Async
     public void judgeFinish() throws Exception{
-        while (!ProgressBarService.isFinish()) {
-            long remainTime = ProgressBarService.getRemainTime();
-            System.out.println("进度 " + ProgressBarService.getPercent() + "%"+" 剩余时间 "+remainTime+"秒");
+        while (!ProgressBar.isFinish()) {
+            long remainTime = ProgressBar.getRemainTime();
+            System.out.println("进度 " + ProgressBar.getPercent() + "%"+" 剩余时间 "+remainTime+"秒");
             Thread.sleep(100);
         }
-        System.out.println("进度 " + ProgressBarService.getPercent() + "%");
+        System.out.println("进度 " + ProgressBar.getPercent() + "%");
     }
 }
