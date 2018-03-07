@@ -1,11 +1,8 @@
 package com.sample.easypoi.controller;
 
-import cn.afterturn.easypoi.cache.ExcelCache;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
-import cn.afterturn.easypoi.excel.export.template.ExcelExportOfTemplateUtil;
-import com.sample.easypoi.config.CommonProperties;
+import com.sample.easypoi.core.ExcelExportHelper;
 import com.sample.easypoi.model.Student;
 import com.sample.easypoi.service.DataService;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -19,9 +16,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/easypoi/export")
 public class ExportController extends BaseController {
-    @Autowired
-    private CommonProperties commonProperties;
-
     @Autowired
     private DataService dataService;
 
@@ -151,21 +145,15 @@ public class ExportController extends BaseController {
         map.put(0, mapTemp1);
         map.put(1, mapTemp1);
         String templateUrl = "/Users/sunguangzhu/develop/github/sample/easypoi/src/main/resources/template/export_03.xlsx";
+        Integer[] sheetNum = new Integer[]{0, 1};
         //step3 导出
         TemplateExportParams params = new TemplateExportParams(
                 templateUrl);
-        Integer[] sheetNum = new Integer[]{0, 1};
         params.setSheetNum(sheetNum);
         params.setColForEach(true);
 
         //解决源码中bug
-        Workbook wb = ExcelCache.getWorkbook(params.getTemplateUrl(), params.getSheetNum(),
-                params.isScanAllsheet());
-        ExcelExportOfTemplateUtil excelExportOfTemplateUtil = new ExcelExportOfTemplateUtil();
-        excelExportOfTemplateUtil.setExcelExportStyler((IExcelExportStyler) params.getStyle()
-                .getConstructor(Workbook.class).newInstance(wb));
-        Workbook workbook = excelExportOfTemplateUtil.createExcleByTemplate(params, map);
-
+        Workbook workbook = ExcelExportHelper.exportExcel(params, map);
 //        Workbook workbook = ExcelExportUtil.exportExcel(map,params);
         this.exportCommon(workbook, "模版导出-多sheet", response);
     }

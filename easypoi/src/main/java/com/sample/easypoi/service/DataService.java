@@ -30,7 +30,6 @@ public class DataService {
         return students;
     }
 
-    @Async
     public Future<ExcelImportResult<Student>> processImport(List<Student> students) throws Exception {
         ExcelImportResult<Student> excelImportResult = new ExcelImportResult<>();
         List<Student> successList = new ArrayList<>();

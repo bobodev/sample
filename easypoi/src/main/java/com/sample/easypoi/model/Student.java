@@ -19,11 +19,14 @@ public class Student {
     @Excel(name = "学生姓名")
     @NotEmpty(message = "学生姓名不能为空")
     private String name;
-    @Excel(name = "学生性别", replace = {"男_1", "女_2"}, suffix = "生")
+    @Excel(name = "学生性别", replace = {"男_1", "女_2"})
     @NotNull(message = "学生性别不能为空")
     private Integer sex;
     @Excel(name = "出生日期", format = "yyyy-MM-dd")
+    @NotNull(message = "出生日期不能为空")
     private Date birthday;
+
+    private String sexStr;
 
     private String errorMsg;
 

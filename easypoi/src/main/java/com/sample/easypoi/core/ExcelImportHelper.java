@@ -59,14 +59,17 @@ public class ExcelImportHelper {
             if(declaredField.isAnnotationPresent(Excel.class)){
                 declaredField.setAccessible(true);
                 Object value = getVal(row.getCell(j));
-                Excel excel = declaredField.getAnnotation(Excel.class);
-                String[] replace = excel.replace();
-                if(replace.length>0){
-                   value = replaceMap.get(value.toString());
-                }
-                String format = excel.format();
-                if(!StringUtils.isEmpty(format)){
-                    value = new SimpleDateFormat(format).parse(value.toString());
+                if(value!=null){
+                    Excel excel = declaredField.getAnnotation(Excel.class);
+                    String[] replace = excel.replace();
+                    if(replace.length>0){
+                        value = replaceMap.get(value.toString());
+                    }
+
+                    String format = excel.format();
+                    if(!StringUtils.isEmpty(format)){
+                        value = new SimpleDateFormat(format).parse(value.toString());
+                    }
                 }
                 declaredField.set(o,getValByFieldType(value,declaredField.getType()));
                 j++;
