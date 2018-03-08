@@ -20,7 +20,34 @@
 项目git地址 https://github.com/gatdevelop/sample.git
 
 ## 1. 概述
-项目主要基于easypoi对开发过程中常见的导入导出场景做了一些demo，便于项目中进行快速开发。但是在实践过程中发现easypoi很多场景支持的并不是很好，模版这块标签语言不太丰富。后面会考虑结合jxl标签进行更丰富的模版支持。
+
+* 项目主要基于easypoi对开发过程中常见的导入导出场景做了一些demo，便于项目中进行快速开发。但是在实践过程中发现easypoi很多场景支持的并不是很好，模版这块标签语言不太丰富。后面会考虑结合jxl标签进行更丰富的模版支持。
+* 使用步骤
+
+1. maven添加依赖
+
+```
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+```
+
+2. 拷贝 com.sample.easypoi.core下面的类到项目中
+3. 参考示例进行使用
+
 ## 2. 基础示例
 ### 2.1. 导出
 * 项目代码【ExportTest.java】
