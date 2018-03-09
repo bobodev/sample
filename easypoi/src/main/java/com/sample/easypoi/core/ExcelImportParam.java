@@ -6,8 +6,16 @@ import java.util.Map;
 
 public class ExcelImportParam {
     private int startRowNum;//开始行 从0开始
-    private int endRowNum;//结束行
+    private int headerRowNum;//表头行
     private Map<String, Object> replaceMap = new HashMap<>();
+
+    public int getHeaderRowNum() {
+        return headerRowNum;
+    }
+
+    public void setHeaderRowNum(int headerRowNum) {
+        this.headerRowNum = headerRowNum;
+    }
 
     public int getStartRowNum() {
         return startRowNum;
@@ -15,14 +23,6 @@ public class ExcelImportParam {
 
     public void setStartRowNum(int startRowNum) {
         this.startRowNum = startRowNum;
-    }
-
-    public int getEndRowNum() {
-        return endRowNum;
-    }
-
-    public void setEndRowNum(int endRowNum) {
-        this.endRowNum = endRowNum;
     }
 
     public Map<String, Object> getReplaceMap() {

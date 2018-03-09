@@ -12,6 +12,8 @@
 2.2.2. 模版导入-validation验证[ImportTest.java]
 2.2.3. 模版导入-多线程处理业务验证[ImportProgressBarTest]
 2.2.4. 模版导入-实时进度条[ProgressBarBase]
+2.3. 其他
+2.3.1. 获取表头
 3. 参考文档
 ```
 
@@ -250,6 +252,25 @@
 1. 建议为每个业务的进度条单独建立一个类继承ProgressBarBase
 2. ProgressBarBase提供的相关api，如获取总时间、获取已处理进度百分比等
 3. 参考2.2.3. 程序进行代码处理
+
+### 2.3.1. 其他-获取表头[ExcelHeaderTest]
+获取表头集合
+
+```
+    /**
+     * 获取表头List
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test01() throws Exception {
+        File file = new File(RESOURCE_PATH + "/import/模版导入(test01_import).xlsx");
+        ExcelImportParam params = new ExcelImportParam();
+        params.setHeaderRowNum(1);
+        List<String> headerRow = ExcelImportHelper.getHeaderRow(file, params);
+        System.out.println("headerRow = " + headerRow);
+    }
+```
 
 ## 3. 参考文档
 [EasyPoi教程](http://easypoi.mydoc.io/)

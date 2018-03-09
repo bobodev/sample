@@ -1,12 +1,10 @@
 package com.sample.easypoi.service;
 
-import cn.afterturn.easypoi.util.PoiValidationUtil;
 import com.sample.easypoi.core.ExcelImportResult;
 import com.sample.easypoi.model.Student;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,19 +28,15 @@ public class DataService {
         return students;
     }
 
+    @Async
     public Future<ExcelImportResult<Student>> processImport(List<Student> students) throws Exception {
         ExcelImportResult<Student> excelImportResult = new ExcelImportResult<>();
         List<Student> successList = new ArrayList<>();
         List<Student> failList = new ArrayList<>();
         for (Student student : students) {
-            String errorMsg = PoiValidationUtil.validation(student, null);
-            if(!StringUtils.isEmpty(errorMsg)){
-                student.setErrorMsg(errorMsg);
-                failList.add(student);
-            }else {
-                //业务验证
-                successList.add(student);
-            }
+            //业务验证
+            successList.add(student);//如果失败，放入failList
+
             ProgressBar.addCount();
             Thread.sleep(200);
         }

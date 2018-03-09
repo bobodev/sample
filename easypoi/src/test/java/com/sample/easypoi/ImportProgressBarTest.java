@@ -2,6 +2,7 @@ package com.sample.easypoi;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import cn.afterturn.easypoi.util.PoiValidationUtil;
 import com.sample.easypoi.core.*;
 import com.sample.easypoi.model.Student;
 import com.sample.easypoi.service.DataService;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.util.*;
@@ -35,6 +37,25 @@ public class ImportProgressBarTest extends BaseTest {
         ExcelImportParam excelImportParam = new ExcelImportParam();
         excelImportParam.setStartRowNum(2);
         List<Student> students = ExcelImportHelper.transferToList(file, Student.class, excelImportParam);
+
+        ExcelImportResult<Student> excelImportResult = new ExcelImportResult();
+        List<Student> failList = excelImportResult.getFailList();
+        //基本校验
+        students.stream().forEach(o->{
+            String errorMsg = PoiValidationUtil.validation(o, null);
+            if(!StringUtils.isEmpty(errorMsg)){
+                o.setErrorMsg(errorMsg);
+                failList.add(o);
+            }
+        });
+
+        if(excelImportResult.isVerifyFail()){//如果失败直接返回
+            if (excelImportResult.isVerifyFail()) {
+                this.exportErrorWorkBook(excelImportResult.getFailList());
+            }
+            return;
+        }
+
         ProgressBar.setTotal(students.size());
         List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 50);
         List<Future<ExcelImportResult<Student>>> futures = new ArrayList<>();
@@ -42,7 +63,8 @@ public class ImportProgressBarTest extends BaseTest {
             futures.add(dataService.processImport(studentList));
             Thread.sleep(10);
         }
-        ExcelImportResult excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
+
+        excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
 
         long end=System.currentTimeMillis();
         long l = end - start;

@@ -43,10 +43,10 @@ public class ExportTest extends BaseTest {
     @Test
     public void test02() throws Exception {
         //step1 准备数据
-        List<Student> students = new DataService().loadData(65535);
+        List<Student> students = new DataService().loadData(100);
         //构建动态列，注意false代表需要导出，true代表不需要导出
         boolean needName = false;
-        boolean needSex = false;
+        boolean needSex = true;
         boolean needBirthday = false;
 
         //step2 构造数据和模版
