@@ -6,7 +6,6 @@ import cn.afterturn.easypoi.util.PoiValidationUtil;
 import com.sample.easypoi.core.*;
 import com.sample.easypoi.model.Student;
 import com.sample.easypoi.service.DataService;
-import com.sample.easypoi.service.ProgressBar;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,9 @@ public class ImportProgressBarTest extends BaseTest {
 
     @Test
     public void test01() throws Exception {
-        dataService.judgeFinish();
+        ProgressBar progressBar = ProgressBar.createProgressBarByCode("progressBar");
+
+        dataService.judgeFinish(progressBar);
 
         long start=System.currentTimeMillis();
 
@@ -53,15 +54,15 @@ public class ImportProgressBarTest extends BaseTest {
             if (excelImportResult.isVerifyFail()) {
                 this.exportErrorWorkBook(excelImportResult.getFailList());
             }
-            return;
+//            return;
         }
 
-        ProgressBar.setTotal(students.size());
-        List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 50);
+        progressBar.setTotal(students.size());
+        List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 2);
         List<Future<ExcelImportResult<Student>>> futures = new ArrayList<>();
         for (List<Student> studentList : sublist) {
-            futures.add(dataService.processImport(studentList));
-            Thread.sleep(10);
+            futures.add(dataService.processImport(studentList,progressBar));
+            Thread.sleep(20);
         }
 
         excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
@@ -73,6 +74,8 @@ public class ImportProgressBarTest extends BaseTest {
         if (excelImportResult.isVerifyFail()) {
             this.exportErrorWorkBook(excelImportResult.getFailList());
         }
+
+        Thread.sleep(2000);
     }
 
     private void exportErrorWorkBook(List<Student> students) throws Exception {

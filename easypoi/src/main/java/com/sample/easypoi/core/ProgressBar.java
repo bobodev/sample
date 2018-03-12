@@ -1,47 +1,50 @@
 package com.sample.easypoi.core;
 
-public class ProgressBarBase {
-    private static long totalTime = 0;
-    private static long remainTime = -1;
-    private static long startTime = 0;
-    private static long endTime = 0;
-    private static long startCount = 0;
-    private static long endCount = 0;
+import java.util.concurrent.ConcurrentHashMap;
 
-    private static volatile long count = 0;
-    private static long total = 0;
+public class ProgressBar {
+    private static ConcurrentHashMap<String, ProgressBar> progressBarMap = new ConcurrentHashMap<>();
+    private long totalTime = 0;
+    private long remainTime = -1;
+    private long startTime = 0;
+    private long endTime = 0;
+    private long startCount = 0;
+    private long endCount = 0;
 
-    public static void setTotal(long total) {
-        ProgressBarBase.total = total;
+    private volatile long count = 0;
+    private long total = 0;
+
+    public void setTotal(long total) {
+        this.total = total;
     }
 
-    public static synchronized void addCount() {
+    public synchronized void addCount() {
         count++;
     }
 
-    public static synchronized void addCount(long size) {
+    public synchronized void addCount(long size) {
         count += size;
     }
 
-    public static synchronized long getCount() {
+    public synchronized long getCount() {
         return count;
     }
 
-    public static synchronized long getPercent() {
+    public synchronized long getPercent() {
         if (total == 0) {
             return 0;
         }
         return (long) (((float) count / total) * 100);
     }
 
-    public static synchronized boolean isFinish() {
+    public synchronized boolean isFinish() {
         if (total == 0) {
             return false;
         }
         return count / total == 1 ? true : false;
     }
 
-    public static long getTotalTime() {
+    public long getTotalTime() {
         if (totalTime > 0) {
             return totalTime;
         } else {
@@ -72,7 +75,7 @@ public class ProgressBarBase {
         return totalTime;
     }
 
-    public static long getRemainTime() {
+    public long getRemainTime() {
         if (totalTime == 0) {
             getTotalTime();
         }
@@ -80,5 +83,15 @@ public class ProgressBarBase {
             remainTime = totalTime - totalTime / total * count;
         }
         return remainTime;
+    }
+
+    public static ProgressBar getProgressBarByCode(String code){
+        return progressBarMap.get(code);
+    }
+    public static ProgressBar createProgressBarByCode(String code){
+        if(progressBarMap.get(code)==null){
+            progressBarMap.put(code,new ProgressBar());
+        }
+        return progressBarMap.get(code);
     }
 }
