@@ -21,6 +21,11 @@ public class ImportCustomColumnTest extends BaseTest {
     @Autowired
     private DataService dataService;
 
+    /**
+     * 自定义列导入，excel数据解析类型为 List<Map<String,Object>> key为header，value为对应的值
+     * 
+     * @throws Exception
+     */
     @Test
     public void test01() throws Exception {
         ProgressBar progressBar = ProgressBar.createProgressBarByCode("progressBar");
