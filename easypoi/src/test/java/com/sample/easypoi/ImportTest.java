@@ -28,6 +28,7 @@ public class ImportTest extends BaseTest{
         List<Student> list = ExcelImportUtil.importExcel(
                 file, Student.class, params);
         System.out.println(list.size());
+
     }
 
     /**
