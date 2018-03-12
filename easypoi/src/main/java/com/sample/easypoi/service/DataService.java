@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 
 @Service
@@ -44,6 +45,20 @@ public class DataService {
         return new AsyncResult<>(excelImportResult);
     }
 
+    @Async
+    public Future<ExcelImportResult<Map>> processImport2(List<Map> mapList, ProgressBar progressBar) throws Exception {
+        ExcelImportResult<Map> excelImportResult = new ExcelImportResult<>();
+        List<Map> successList = new ArrayList<>();
+        List<Map> failList = new ArrayList<>();
+        for (Map map : mapList) {
+            //业务验证
+            successList.add(map);//如果失败，放入failList
+            progressBar.addCount();
+        }
+        excelImportResult.setFailList(failList);
+        excelImportResult.setSuccessList(successList);
+        return new AsyncResult<>(excelImportResult);
+    }
 
     @Async
     public void judgeFinish(ProgressBar progressBar) throws Exception{
@@ -54,4 +69,6 @@ public class DataService {
         }
         System.out.println("进度 " + progressBar.getPercent() + "%");
     }
+
+
 }

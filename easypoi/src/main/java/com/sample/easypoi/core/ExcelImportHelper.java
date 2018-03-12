@@ -84,6 +84,8 @@ public class ExcelImportHelper {
     public static <T> List<T> transferToList(InputStream inputStream, Class<T> clazz, ExcelImportParam param) throws Exception {
         List<T> list = new ArrayList<>();
 
+        List<String> headerRows = param.getHeaderRows();
+
         Map<String, Object> replaceMap = getReplaceMap(clazz);
 
         Workbook workbook = new XSSFWorkbook(inputStream);
@@ -92,10 +94,31 @@ public class ExcelImportHelper {
         int startRowNum = param.getStartRowNum();
         for (int i = startRowNum; i <= lastRowNum; i++) {
             Row row = sheet.getRow(i);
-            T o = transferRowToClass(row, clazz, replaceMap);
+            T o = null;
+            if(clazz.getName().equals(Map.class.getName())){
+                o= transferRowToMap(row,headerRows);
+            }else{
+                o = transferRowToClass(row, clazz, replaceMap);
+            }
             list.add(o);
         }
         return list;
+    }
+
+    /**
+     * 转化Row到Map
+     * @param row
+     * @param headerRows
+     * @param <T>
+     * @return
+     */
+    private static <T> T transferRowToMap(Row row,List<String> headerRows) {
+        Map<String,Object> map = new TreeMap<>();
+        for(int i=0;i<headerRows.size();i++){
+            Object value = getVal(row.getCell(i));
+            map.put(headerRows.get(i),value);
+        }
+        return (T) map;
     }
 
     /**

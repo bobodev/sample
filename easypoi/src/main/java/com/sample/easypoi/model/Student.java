@@ -1,6 +1,7 @@
 package com.sample.easypoi.model;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import com.sample.easypoi.core.BaseExcelModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Student {
+public class Student extends BaseExcelModel {
     private String id;
     @Excel(name = "学生姓名")
     @NotEmpty(message = "学生姓名不能为空")
@@ -27,7 +28,5 @@ public class Student {
     private Date birthday;
 
     private String sexStr;
-
-    private String errorMsg;
 
 }
