@@ -51,6 +51,10 @@ public class DataService {
         List<Map> successList = new ArrayList<>();
         List<Map> failList = new ArrayList<>();
         for (Map map : mapList) {
+            if(map.get("学生星美那个")==null){
+                map.put("错误信息","fdsfs");
+                failList.add(map);
+            }
             //业务验证
             successList.add(map);//如果失败，放入failList
             progressBar.addCount();

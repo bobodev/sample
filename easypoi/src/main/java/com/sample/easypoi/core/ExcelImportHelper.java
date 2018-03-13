@@ -17,6 +17,31 @@ import java.util.*;
  */
 public class ExcelImportHelper {
 
+    /**
+     * 获得最大列号
+     * @param file
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static int getLastRowNum(File file, ExcelImportParam param) throws Exception {
+        return getLastRowNum(new FileInputStream(file),param);
+    }
+
+    /**
+     * 获得最大列号
+     * @param inputStream
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static int getLastRowNum(InputStream inputStream, ExcelImportParam param) throws Exception {
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        Sheet sheet = workbook.getSheetAt(0);
+        int lastRowNum = sheet.getLastRowNum();
+        return lastRowNum;
+    }
+
 
     /**
      * 获得表头

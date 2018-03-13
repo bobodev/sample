@@ -15,6 +15,8 @@
 2.3. 其他
 2.3.1. 获取表头
 2.3.2. 自定义列导入
+2.3.3. 基于jxls的自定义列导出
+2.3.4. 获取最大行
 3. 参考文档
 ```
 
@@ -44,6 +46,11 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jxls</groupId>
+            <artifactId>jxls-core</artifactId>
+            <version>1.0.5</version>
         </dependency>
 
 ```
@@ -320,6 +327,47 @@
           }
   
       }
+```
+### 2.3.3 其他-基于jxls的自定义列导出[ImportCustomColumnTest]
+
+```
+        /**
+         * 获取最大行
+         *
+         * @throws Exception
+         */
+        @Test
+        public void test01() throws Exception {
+            ....省略代码
+            
+            //导出自定义列示例 基于jxls
+            Map<String, Object> map = new HashMap<>();
+            headerRows.add("错误信息");
+            map.put("headers", headerRows);
+            map.put("list", mapList);
+            String templateUrl = RESOURCE_PATH + "/template/export_06.xlsx";
+            XLSTransformer transformer = new XLSTransformer();
+            transformer.transformXLS(templateUrl, map, RESOURCE_PATH + "/export/自定义列导出_ImportCustomColumnTest(test01_export).xlsx");
+
+        }
+```
+
+### 2.3.4. 其他-获取最大行[LastRowNumTest]
+
+```
+        /**
+         * 获取最大行
+         *
+         * @throws Exception
+         */
+        @Test
+        public void test01() throws Exception {
+            File file = new File(RESOURCE_PATH + "/import/模版导入(test01_import).xlsx");
+            ExcelImportParam params = new ExcelImportParam();
+            params.setHeaderRowNum(1);
+            List<String> headerRow = ExcelImportHelper.getHeaderRow(file, params);
+            System.out.println("headerRow = " + headerRow);
+        }
 ```
 
 ## 3. 参考文档
