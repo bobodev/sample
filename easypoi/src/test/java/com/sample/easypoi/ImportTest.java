@@ -1,10 +1,10 @@
-package com.sample.interceptor;
+package com.sample.easypoi;
 
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
-import com.sample.interceptor.model.ExcelVerifyEntity;
-import com.sample.interceptor.model.Student;
+import com.sample.easypoi.model.ExcelVerifyEntity;
+import com.sample.easypoi.model.Student;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 

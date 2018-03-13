@@ -1,10 +1,10 @@
-package com.sample.interceptor.controller;
+package com.sample.easypoi.controller;
 
 import cn.afterturn.easypoi.cache.manager.POICacheManager;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
-import com.sample.interceptor.model.Student;
+import com.sample.easypoi.model.Student;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

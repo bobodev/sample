@@ -1,8 +1,8 @@
-package com.sample.interceptor.service;
+package com.sample.easypoi.service;
 
-import com.sample.interceptor.core.ExcelImportResult;
-import com.sample.interceptor.core.ProgressBar;
-import com.sample.interceptor.model.Student;
+import com.sample.easypoi.core.ExcelImportResult;
+import com.sample.easypoi.core.ProgressBar;
+import com.sample.easypoi.model.Student;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
-package com.sample.interceptor;
+package com.sample.easypoi;
 
-import com.sample.interceptor.core.ExcelImportHelper;
-import com.sample.interceptor.core.ExcelImportParam;
+import com.sample.easypoi.core.ExcelImportHelper;
+import com.sample.easypoi.core.ExcelImportParam;
 import org.junit.Test;
 
 import java.io.File;

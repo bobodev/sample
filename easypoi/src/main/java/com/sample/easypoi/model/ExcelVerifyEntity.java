@@ -1,4 +1,4 @@
-package com.sample.interceptor.model;
+package com.sample.easypoi.model;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import org.hibernate.validator.constraints.NotEmpty;

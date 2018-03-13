@@ -1,4 +1,4 @@
-package com.sample.interceptor.core;
+package com.sample.easypoi.core;
 
 import org.springframework.util.CollectionUtils;
 

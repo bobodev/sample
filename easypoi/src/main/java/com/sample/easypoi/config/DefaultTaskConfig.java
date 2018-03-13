@@ -1,4 +1,4 @@
-package com.sample.interceptor.config;
+package com.sample.easypoi.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

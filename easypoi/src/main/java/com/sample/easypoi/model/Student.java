@@ -1,7 +1,7 @@
-package com.sample.interceptor.model;
+package com.sample.easypoi.model;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import com.sample.interceptor.core.BaseExcelModel;
+import com.sample.easypoi.core.BaseExcelModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

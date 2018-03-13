@@ -1,4 +1,4 @@
-package com.sample.interceptor.core;
+package com.sample.easypoi.core;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import org.apache.poi.ss.usermodel.*;

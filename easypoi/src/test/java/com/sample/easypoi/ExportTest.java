@@ -1,10 +1,10 @@
-package com.sample.interceptor;
+package com.sample.easypoi;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-import com.sample.interceptor.core.ExcelExportHelper;
-import com.sample.interceptor.model.Student;
-import com.sample.interceptor.service.DataService;
+import com.sample.easypoi.core.ExcelExportHelper;
+import com.sample.easypoi.model.Student;
+import com.sample.easypoi.service.DataService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 

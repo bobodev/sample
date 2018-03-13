@@ -1,4 +1,4 @@
-package com.sample.interceptor.controller;
+package com.sample.easypoi.controller;
 
 import org.apache.poi.ss.usermodel.Workbook;
 

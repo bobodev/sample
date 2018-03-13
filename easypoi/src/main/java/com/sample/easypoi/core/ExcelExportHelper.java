@@ -1,4 +1,4 @@
-package com.sample.interceptor.core;
+package com.sample.easypoi.core;
 
 import cn.afterturn.easypoi.cache.ExcelCache;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
