@@ -355,19 +355,19 @@
 ### 2.3.4. 其他-获取最大行[LastRowNumTest]
 
 ```
-        /**
-         * 获取最大行
-         *
-         * @throws Exception
-         */
-        @Test
-        public void test01() throws Exception {
-            File file = new File(RESOURCE_PATH + "/import/模版导入(test01_import).xlsx");
-            ExcelImportParam params = new ExcelImportParam();
-            params.setHeaderRowNum(1);
-            List<String> headerRow = ExcelImportHelper.getHeaderRow(file, params);
-            System.out.println("headerRow = " + headerRow);
-        }
+    /**
+     * 获取最大行
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test01() throws Exception {
+        File file = new File(RESOURCE_PATH + "/import/模版导入(test01_import).xlsx");
+        ExcelImportParam params = new ExcelImportParam();
+        int lastRowNum = ExcelImportHelper.getLastRowNum(file, params);
+        System.out.println("lastRowNum = " + lastRowNum);
+    }
+    
 ```
 
 ## 3. 参考文档
