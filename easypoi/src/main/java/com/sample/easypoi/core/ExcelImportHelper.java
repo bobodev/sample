@@ -1,6 +1,9 @@
 package com.sample.easypoi.core;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+import org.apache.poi.POIXMLDocument;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.StringUtils;
@@ -8,6 +11,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,7 +40,7 @@ public class ExcelImportHelper {
      * @throws Exception
      */
     public static int getLastRowNum(InputStream inputStream, ExcelImportParam param) throws Exception {
-        Workbook workbook = new XSSFWorkbook(inputStream);
+        Workbook workbook = getWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
         int lastRowNum = sheet.getLastRowNum();
         return lastRowNum;
@@ -64,7 +68,7 @@ public class ExcelImportHelper {
      */
     public static List<String> getHeaderRow(InputStream inputStream, ExcelImportParam param) throws Exception {
         List<String> headers = new ArrayList<>();
-        Workbook workbook = new XSSFWorkbook(inputStream);
+        Workbook workbook = getWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(param.getHeaderRowNum());
         short minColIx = row.getFirstCellNum();
@@ -113,7 +117,7 @@ public class ExcelImportHelper {
 
         Map<String, Object> replaceMap = getReplaceMap(clazz);
 
-        Workbook workbook = new XSSFWorkbook(inputStream);
+        Workbook workbook = getWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
         int lastRowNum = sheet.getLastRowNum();
         int startRowNum = param.getStartRowNum();
@@ -253,6 +257,23 @@ public class ExcelImportHelper {
             return cell.getNumericCellValue();
         } else if (cell.getCellType() == CellType.BOOLEAN.getCode()) {
             return cell.getBooleanCellValue();
+        }
+        return null;
+    }
+
+    public static Workbook getWorkbook(File file) throws Exception{
+        return getWorkbook(new FileInputStream(file));
+    }
+
+    public static Workbook getWorkbook(InputStream inputStream) throws Exception{
+        if(! inputStream.markSupported()) {
+            inputStream = new PushbackInputStream(inputStream, 8);
+        }
+        if(POIFSFileSystem.hasPOIFSHeader(inputStream)) {
+            return new HSSFWorkbook(inputStream);
+        }
+        if(POIXMLDocument.hasOOXMLHeader(inputStream)) {
+            return new XSSFWorkbook(inputStream);
         }
         return null;
     }
