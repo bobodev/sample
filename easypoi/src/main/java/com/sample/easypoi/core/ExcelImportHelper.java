@@ -142,7 +142,7 @@ public class ExcelImportHelper {
      * @return
      */
     private static <T> T transferRowToMap(Row row,List<String> headerRows) {
-        Map<String,Object> map = new TreeMap<>();
+        Map<String,Object> map = new LinkedHashMap<>();
         for(int i=0;i<headerRows.size();i++){
             Object value = getVal(row.getCell(i));
             map.put(headerRows.get(i),value);
