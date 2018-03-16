@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.sample.easypoi.core.*;
 import com.sample.easypoi.service.DataService;
 import net.sf.jxls.transformer.XLSTransformer;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,12 +82,6 @@ public class ImportCustomColumnTest extends BaseTest {
         String templateUrl = RESOURCE_PATH + "/template/export_06.xlsx";
         XLSTransformer transformer = new XLSTransformer();
         Workbook workbook = transformer.transformXLS(new FileInputStream(templateUrl), map);
-        Sheet sheet = workbook.getSheetAt(0);
-        short lastCellNum = sheet.getRow(1).getLastCellNum();
-        int physicalNumberOfCells = sheet.getRow(1).getPhysicalNumberOfCells();
-
-
-
         ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/自定义列导出_ImportCustomColumnTest(test01_export).xlsx");
         Thread.sleep(2000);
     }
