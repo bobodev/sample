@@ -18,7 +18,7 @@ import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
-@ComponentScan({"com.sample.interceptor"})
+@ComponentScan({"com.sample.easypoi"})
 @EnableAsync
 public class Application extends WebMvcConfigurerAdapter {
 
