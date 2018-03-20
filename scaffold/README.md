@@ -79,7 +79,9 @@ util包放置了一些工具类
 ### 3.1. 路径规范
 
 1.参考包规范
+
 2.前端文件名称下划线方式。如user_list.html、user_add.html,含有业务含义的以文件夹进行区分
+
 3.请求路径命名：驼峰命名。如/api/scaffold/listUser、/api/scaffold/addUser
 
 ### 3.1. 参数记忆功能
@@ -105,6 +107,7 @@ util包放置了一些工具类
 ### 3.1. 功能和业务分离
 
 1.controller只负责跳转控制
+
 2.service包负责业务逻辑处理
 
 * biz包下负责大部分的普通业务处理，每个Service都要包含接口和实现。
