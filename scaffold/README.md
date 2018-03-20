@@ -76,6 +76,9 @@ util包放置了一些工具类
 ```
 
 ### 3.1. 缓存 共享和本地
+
+todo
+
 ### 3.1. 路径规范
 
 1.参考包规范
@@ -85,6 +88,9 @@ util包放置了一些工具类
 3.请求路径命名：驼峰命名。如/api/scaffold/listUser、/api/scaffold/addUser
 
 ### 3.1. 参数记忆功能
+
+todo
+
 ### 3.1. 异常统一处理
 参考参考WebMvcConfig
 
@@ -106,7 +112,7 @@ util包放置了一些工具类
 
 ### 3.1. 功能和业务分离
 
-1.controller只负责跳转控制
+1.controller只负责跳转控制和数据获取
 
 2.service包负责业务逻辑处理
 
