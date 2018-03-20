@@ -74,7 +74,7 @@ public class ImportCustomColumnTest extends BaseTest {
             //导出错误的数据，参考ImportProgressBarTest.exportErrorWorkBook
         }
 
-        //导出自定义列示例 基于jxls
+        //导出自定义列示例 基于 jxls
         Map<String, Object> map = new HashMap<>();
         headerRows.add("错误信息");
         map.put("headers", headerRows);

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,5 +38,18 @@ public class OtherTest extends BaseTest{
 
     }
 
+    @Test
+    public void test02() throws Exception{
+//        System.out.println("科学计数法数字");
+        double num1 = 50123.12E25;
+        String s = new BigDecimal(num1).setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString();
+        System.out.println("s = " + s);
+//        System.out.println("普通数字");
+//        double num2 = 50123.12;
+//        System.out.println(num2);
+//        BigDecimal bd2 = new BigDecimal(num2);
+//        System.out.println(bd2.toPlainString());
+//        System.out.println(bd2.setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString());
+    }
 
 }
