@@ -1,5 +1,7 @@
 package com.sample.scaffold.config.webmvc;
 
+import com.alibaba.fastjson.PropertyNamingStrategy;
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
@@ -53,13 +55,31 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
      * @return
      */
     @Bean
-    public HttpMessageConverters fastJsonHttpMessageConverters() {
+    public HttpMessageConverters httpMessageConverters() {
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
         fastConverter.setFastJsonConfig(fastJsonConfig);
         HttpMessageConverter<?> converter = fastConverter;
         return new HttpMessageConverters(converter);
+    }
+
+
+    @Bean
+    public FastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
+        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+        fastJsonConfig.getSerializeConfig().propertyNamingStrategy=PropertyNamingStrategy.SnakeCase;
+        fastConverter.setFastJsonConfig(fastJsonConfig);
+        return fastConverter;
+    }
+
+    @Bean
+    public SerializeConfig serializeConfig(){
+        SerializeConfig serializeConfig = new SerializeConfig();
+        serializeConfig.propertyNamingStrategy= PropertyNamingStrategy.SnakeCase;
+        return serializeConfig;
     }
 
 }
