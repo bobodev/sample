@@ -1,6 +1,5 @@
 package com.sample.scaffold.controller;
 
-import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.sample.scaffold.contract.dto.AddrDto;
 import com.sample.scaffold.contract.dto.UserDto;
 import com.sample.scaffold.service.biz.IEchoService;
@@ -17,16 +16,13 @@ public class ApiController {
     @Autowired
     private IEchoService echoService;
 
-    @Autowired
-    private SerializeConfig serializeConfig;
-
-    @RequestMapping(value = "/echo",method = RequestMethod.GET)
-    public ResponseEntity<Object> echo() throws Exception{
+    @RequestMapping(value = "/echo", method = RequestMethod.GET)
+    public ResponseEntity<Object> echo() throws Exception {
         return ResponseEntity.ok(echoService.echo());
     }
 
-    @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public ResponseEntity<Object> user() throws Exception{
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseEntity<Object> user() throws Exception {
         UserDto user = new UserDto();
         user.setId(1);
         user.setPersonName("fsdfsdfsdf");
