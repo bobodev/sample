@@ -166,6 +166,9 @@ todo
 ### 3.8. 定时任务的分布式锁机制，避免多台机器同时运行。同时支持动态干预任务的执行
 参考 RedisLockAnno和RedisLockAnnoProcessor
 使用步骤：
+
 1、在定时任务上指定@RedisLockAnno，指定相关key和expired，通过execKey指定是否要执行，默认执行
+
 2、目前尚未集成任务的动态干预，参考gitlab上jd-job项目已经实现结合gconf动态干预任务。
+
 3、相关例子程序有空补上
