@@ -1,10 +1,11 @@
 package com.sample.scaffold.controller;
 
-import com.sample.scaffold.contract.dto.AddrDto;
-import com.sample.scaffold.contract.dto.UserDto;
+import com.sample.scaffold.model.User;
 import com.sample.scaffold.service.biz.IEchoService;
+import com.sample.scaffold.service.biz.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,21 +17,24 @@ public class ApiController {
     @Autowired
     private IEchoService echoService;
 
+    @Autowired
+    private IUserService userService;
+
     @RequestMapping(value = "/echo", method = RequestMethod.GET)
     public ResponseEntity<Object> echo() throws Exception {
         return ResponseEntity.ok(echoService.echo());
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResponseEntity<Object> user() throws Exception {
-        UserDto user = new UserDto();
-        user.setId(1);
-        user.setPersonName("fsdfsdfsdf");
-        user.setPhoneNumber("fsdfsdfsdf");
-        AddrDto addr = new AddrDto();
-        addr.setCompanyAddr("fdsf");
-        addr.setHomeAddr("fsdf");
-        user.setAddrDto(addr);
-        return ResponseEntity.ok(user);
+    @RequestMapping(value = "/findOneUser", method = RequestMethod.GET)
+    public ResponseEntity<Object> findOneUser(Long id) throws Exception {
+        return ResponseEntity.ok(userService.findOneUser(id));
+    }
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteUser(Long id) throws Exception {
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
+    @RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+    public ResponseEntity<Object> updateUser(@RequestBody User user) throws Exception {
+        return ResponseEntity.ok(userService.updateUser(user));
     }
 }

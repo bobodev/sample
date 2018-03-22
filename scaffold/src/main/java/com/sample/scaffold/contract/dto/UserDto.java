@@ -6,7 +6,6 @@ public class UserDto {
     private String phoneNumber;
     private AddrDto addrDto;
 
-
     public Integer getId() {
         return id;
     }

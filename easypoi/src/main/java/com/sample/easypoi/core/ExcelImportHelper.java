@@ -257,6 +257,9 @@ public class ExcelImportHelper {
      * @return
      */
     private static Object getVal(Cell cell) {
+        if(cell==null){
+            return null;
+        }
         if (cell.getCellType() == CellType.STRING.getCode()) {
             return cell.getStringCellValue();
         } else if (cell.getCellType() == CellType.NUMERIC.getCode()) {
