@@ -15,7 +15,8 @@ dwe
 
 ```
 忘记支付密码 H5:
-https://mobile.guanaitong.com/index.php?wxA=PasswordSetting.forgetPayPassword&retryPayUrl=http%3A%2F%2Fwww.baidu.com
+https://mobile.guanaitong.com/index.php?wxA=PasswordSetting.forgetPayPassword
+&retryPayUrl=http%3A%2F%2Fwww.baidu.com
 
 忘记支付密码 PC:
 https://secure.guanaitong.com/index.php?wxA=Person.index
