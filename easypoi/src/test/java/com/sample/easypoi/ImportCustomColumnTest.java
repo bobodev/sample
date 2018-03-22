@@ -40,14 +40,15 @@ public class ImportCustomColumnTest extends BaseTest {
 
         long start=System.currentTimeMillis();
 
-        File file = new File(RESOURCE_PATH + "/import/ProgressBar.xlsx");
+//        File file = new File(RESOURCE_PATH + "/import/ProgressBar.xlsx");
+        File file = new File(RESOURCE_PATH + "/import/1111111.xlsx");
         //数据转化
         ExcelImportParam excelImportParam = new ExcelImportParam();
-        excelImportParam.setStartRowNum(2);
+        excelImportParam.setStartRowNum(1);
 
         //获取headerRow
         ExcelImportParam paramForHeaderRow = new ExcelImportParam();
-        paramForHeaderRow.setHeaderRowNum(1);
+        paramForHeaderRow.setHeaderRowNum(0);
         List<String> headerRows= ExcelImportHelper.getHeaderRow(file, paramForHeaderRow);
 
         excelImportParam.setHeaderRows(headerRows);

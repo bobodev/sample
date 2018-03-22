@@ -129,7 +129,9 @@ public class ExcelImportHelper {
             }else{
                 o = transferRowToClass(row, clazz, replaceMap);
             }
-            list.add(o);
+            if(o!=null){
+                list.add(o);
+            }
         }
         return list;
     }
@@ -146,6 +148,10 @@ public class ExcelImportHelper {
         for(int i=0;i<headerRows.size();i++){
             Object value = getVal(row.getCell(i));
             map.put(headerRows.get(i),value);
+        }
+        boolean result = map.values().stream().anyMatch(o -> o != null);
+        if(!result){
+            return null;
         }
         return (T) map;
     }
