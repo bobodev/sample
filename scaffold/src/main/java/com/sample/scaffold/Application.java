@@ -1,7 +1,7 @@
 package com.sample.scaffold;
 
 import com.alibaba.fastjson.JSON;
-import com.sample.scaffold.config.redis.RedisConfig;
+import com.sample.scaffold.config.cache.DefaultCacheManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
@@ -18,8 +18,8 @@ public class Application {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(new Object[]{Application.class}, args);
         new Thread(() -> {
-            while(true){
-                System.out.println(" RedisConfig.store = " + JSON.toJSONString(RedisConfig.store));
+            while (true) {
+                System.out.println(" DefaultCacheManager.store = " + JSON.toJSONString(DefaultCacheManager.store));
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {

@@ -77,7 +77,17 @@ util包放置了一些工具类
 
 ### 3.1. 缓存 共享和本地
 缓存选用Spring Cache
+参考
 
+1.https://aggarwalarpit.wordpress.com/2017/01/25/setting-ttl-for-cacheable-spring/
+
+2.https://zhuanlan.zhihu.com/p/30537673
+
+3.https://zhuanlan.zhihu.com/p/30540686
+
+4.https://www.jianshu.com/p/275cb42080d9
+
+5.https://www.journaldev.com/18141/spring-boot-redis-cache
 
 ### 3.1. 路径规范
 
