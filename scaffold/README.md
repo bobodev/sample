@@ -76,17 +76,22 @@ util包放置了一些工具类
 ```
 
 ### 3.1. 缓存 共享和本地
-缓存选用Spring Cache
-参考
+
+主要是DefaultCacheManager类。目前继承了redisCache和simpleCacheManager，可以实现指定缓存实现
+
+使用步骤：
+
+1、启动类上加入@EnableCaching，启用缓存
+2、配置 DefaultCacheManager 相关缓存参数
+3、使用@CacheConfig、@Cacheable、@CacheEvict、@CachePut进行缓存使用
+4、参照UserService基本用法
+
+参考网址
 
 1.https://aggarwalarpit.wordpress.com/2017/01/25/setting-ttl-for-cacheable-spring/
-
 2.https://zhuanlan.zhihu.com/p/30537673
-
 3.https://zhuanlan.zhihu.com/p/30540686
-
 4.https://www.jianshu.com/p/275cb42080d9
-
 5.https://www.journaldev.com/18141/spring-boot-redis-cache
 
 ### 3.1. 路径规范

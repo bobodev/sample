@@ -24,7 +24,7 @@ public class DefaultCacheManager extends CachingConfigurerSupport {
     public final static ConcurrentMap<Object, Object> store = new ConcurrentHashMap<>();
 
     @Bean("simpleCacheManager")
-    public SimpleCacheManager simpleCacheManager() {
+    public CacheManager simpleCacheManager() {
         SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
         List<String> cacheNames = new ArrayList<>(Arrays.asList("scaffold", "user"));
         List<Cache> caches = new ArrayList<>();
