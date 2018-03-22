@@ -37,7 +37,7 @@ scaffold 基于springboot的一个脚手架项目，便于快速的搭建springb
 
 config目录主要放置一些配置文件，如数据源、redis配置、mq配置、线程配置等
 
-2.contract
+2.contract（简单业务可以忽略request和response）
 
 contract意为契约。contract包描述了与外部服务交互的契约。调用方和服务实现遵循契约的规定完成服务的调用和实现。
 契约一旦开发完成，即可进行并行开发阶段。契约为主要的文档输出。
