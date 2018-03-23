@@ -2,7 +2,7 @@
 1. [php版-已经绑定手机设置支付密码](#1)
 2. [php版-未绑定手机设置支付密码或忘记密码重置密码](#2)
 3. [php版-修改绑定手机号](#3)
-4. [php版-忘记登录密码](#4)
+4. [java版-忘记登录密码](#4)
 5. [php版-修改登录密码(企业)](#5)
 6. [php版-修改支付密码(企业)](#6)
 7. [php版-我的消息](#7)
@@ -48,30 +48,39 @@ https://passport.guanaitong.com/forgetPwd/step1
 
 都不支持跳回url的传入
 ```
+
 <h4 id="5">修改登录密码(企业)</h4>
+
 ```
 PC:
 https://my.guanaitong.com/index.php?m=security&a=changePassword
 
 不支持跳回url的传入
 ```
+
 <h4 id="6">修改支付密码(企业)</h4>
+
 ```
 PC:
 https://my.guanaitong.com/index.php?m=security&a=changePayPassword
 
 不支持跳回url的传入
 ```
+
 <h4 id="7">我的消息</h4>
+
 ```
 PC:
 https://ecenter.guanaitong.com/index.php?wxA=Message.index
 ```
+
 <h4 id="8">帮助中心</h4>
+
 ```
 PC:
 帮助中心-常见问题:
 https://ecenter.guanaitong.com/index.php?wxA=Help.problem&id=3
+
 帮助中心-操作培训:
 https://ecenter.guanaitong.com/index.php?wxA=Help.problem&id=4
 ```
