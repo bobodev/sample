@@ -41,10 +41,10 @@ https://secure.guanaitong.com/index.php?wxA=Person.index
 <h4 id="4">忘记登录密码</h4>
 ```
 手机:
-https://passport.guanaitong.test/mobileForgetPwd/step1
+https://passport.guanaitong.com/mobileForgetPwd/step1
 
 PC:
-https://passport.guanaitong.test/forgetPwd/step1
+https://passport.guanaitong.com/forgetPwd/step1
 
 都不支持跳回url的传入
 ```
