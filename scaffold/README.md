@@ -127,7 +127,40 @@ util包放置了一些工具类
 
 ### 3.4. 前端页面参数自动存储记忆
 
-todo
+1、采用store.js,参考网址 https://github.com/marcuswestin/store.js/blob/master/README.md
+
+2、兼容性
+
+store.js 兼容IE6+、iOS 8+、Android 4+、Firefox 4+、Chrome 27+、Safari 5+、Opera 11+
+
+3、存储大小限制
+
+参考 Storages limits
+
+4、API示例
+
+```
+// Store current user
+store.set('user', { name:'Marcus' })
+
+// Get current user
+store.get('user')
+
+// Remove current user
+store.remove('user')
+
+// Clear all keys
+store.clearAll()
+
+// Loop over all stored values
+store.each(function(value, key) {
+	console.log(key, '==', value)
+})
+```
+
+5、示例
+
+参照public下a.html和b.html
 
 ### 3.5. 异常统一处理
 参考参考WebMvcConfig
