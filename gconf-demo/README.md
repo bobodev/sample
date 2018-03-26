@@ -4,11 +4,10 @@
 PropsToBeanUtils和PropsAnnotation类演示了反射和注解
      
     DynamicProxyTest测试类
-     @Test
+    @Test
     public void test(){
-    TestBean testBean = PropsToBeanUtils.toBean("test.properties", TestBean.class,true);
-    
-    System.out.println(testBean);
+	    TestBean testBean = PropsToBeanUtils.toBean("test.properties", TestBean.class,true);
+	    System.out.println(testBean);
     }
     
 ####  2、JDK动态代理类示例
@@ -17,9 +16,9 @@ DynamicProxy和ISay及SayImp类演示了JDK的动态代理
     PropsToBeanTest测试类
     @Test
     public void test(){
-    ISay iSay = (ISay) Proxy.newProxyInstance(SayImp.class.getClassLoader(), SayImp.class.getInterfaces(), new DynamicProxy(new SayImp()));
-    iSay.say();
-    Assert.assertEquals(iSay.say2(),"say2");
+	    ISay iSay = (ISay) Proxy.newProxyInstance(SayImp.class.getClassLoader(), SayImp.class.getInterfaces(), new DynamicProxy(new SayImp()));
+	    iSay.say();
+	    Assert.assertEquals(iSay.say2(),"say2");
     }
 ####  3、Atomic类使用示例
 
@@ -36,21 +35,19 @@ DynamicProxy和ISay及SayImp类演示了JDK的动态代理
 Gconf的一般使用示例：
 
     public class GconfTest {
-    
     @Test
     public void test(){
-    ConfigCollectionFactory configCollectionFactory = RemoteConfigCollectionFactoryBuilder.getInstance();
-    ConfigCollection configCollection = configCollectionFactory.getConfigCollection("contactlist-provider", "1.0.0");
-    
-    ConfigBean bean = configCollection.getBean("contactlist.properties", ConfigBean.class);
-    IConfig iConfig = configCollection.getBean("contactlist.properties", IConfig.class);
-    Assert.assertEquals(iConfig.getName(),"contactlist");
-    }
+	    ConfigCollectionFactory configCollectionFactory = RemoteConfigCollectionFactoryBuilder.getInstance();
+	    ConfigCollection configCollection = configCollectionFactory.getConfigCollection("contactlist-provider", "1.0.0");
+	    ConfigBean bean = configCollection.getBean("contactlist.properties", ConfigBean.class);
+	    IConfig iConfig = configCollection.getBean("contactlist.properties", IConfig.class);
+	    Assert.assertEquals(iConfig.getName(),"contactlist");
+      }
     }
 
 Gconf结合springboot启动示例：
 
-     @SpringBootApplication
+    @SpringBootApplication
     public class GconfApplication {
     	public static void main(String[] args) {
     		SpringApplication springApplication = new SpringApplication(GconfApplication.class);
