@@ -5,8 +5,12 @@
 4. [java版-忘记登录密码](#4)
 5. [php版-修改登录密码(企业)](#5)
 6. [php版-修改支付密码(企业)](#6)
-7. [php版-我的消息](#7)
-8. [php版-帮助中心](#8)
+7. [java版-登录](#7)
+8. [php版-个人中心](#8)
+9. [php版-我的消息](#9)
+10. [php版-帮助中心(企业)](#10)
+11. [php版-应用列表首页(员工)](#11)
+
 
 <h4 id="1">已经绑定手机设置支付密码</h4>
 
@@ -68,14 +72,35 @@ https://my.guanaitong.com/index.php?m=security&a=changePayPassword
 不支持跳回url的传入
 ```
 
-<h4 id="7">我的消息</h4>
+<h4 id="7">登录</h4>
+
+```
+员工：
+https://passport.guanaitong.com?redirect_url=xxxxx
+
+企业：
+https://admin.guanaitong.com?redirect_url=xxxxx
+注：redirect_url是返回页面地址
+```
+
+<h4 id="8">个人中心</h4>
+
+```
+员工：
+https://mycenter.guanaitong.com/index.php?wxA=Person.index
+
+企业：
+https://ecenter.guanaitong.com/index.php?wxA=Message.index
+```
+
+<h4 id="9">我的消息</h4>
 
 ```
 PC:
 https://ecenter.guanaitong.com/index.php?wxA=Message.index
 ```
 
-<h4 id="8">帮助中心</h4>
+<h4 id="10">帮助中心</h4>
 
 ```
 PC:
@@ -84,4 +109,11 @@ https://ecenter.guanaitong.com/index.php?wxA=Help.problem&id=3
 
 帮助中心-操作培训:
 https://ecenter.guanaitong.com/index.php?wxA=Help.problem&id=4
+```
+
+<h4 id="11">应用列表首页(员工)</h4>
+
+```
+手机:
+https://mobile.guanaitong.com/index.php?wxA=Enterprise.home
 ```
