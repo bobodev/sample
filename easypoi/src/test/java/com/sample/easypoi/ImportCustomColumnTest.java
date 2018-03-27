@@ -41,7 +41,7 @@ public class ImportCustomColumnTest extends BaseTest {
         long start=System.currentTimeMillis();
 
 //        File file = new File(RESOURCE_PATH + "/import/ProgressBar.xlsx");
-        File file = new File(RESOURCE_PATH + "/import/中智人力资源管理公司.xlsx");
+        File file = new File(RESOURCE_PATH + "/import/工资条模板-2018-03-27-11-16-40.xlsx");
         //数据转化
         ExcelImportParam excelImportParam = new ExcelImportParam();
         excelImportParam.setStartRowNum(1);

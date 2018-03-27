@@ -122,16 +122,25 @@ public class ExcelImportHelper {
         int lastRowNum = sheet.getLastRowNum();
         int startRowNum = param.getStartRowNum();
         for (int i = startRowNum; i <= lastRowNum; i++) {
-            Row row = sheet.getRow(i);
-            T o = null;
-            if(clazz.getName().equals(Map.class.getName())){
-                o= transferRowToMap(row,headerRows);
-            }else{
-                o = transferRowToClass(row, clazz, replaceMap);
+            try{
+                Row row = sheet.getRow(i);
+                if (row==null){
+                    list.add(null);
+                }else{
+                    T o = null;
+                    if(clazz.getName().equals(Map.class.getName())){
+                        o= transferRowToMap(row,headerRows);
+                    }else{
+                        o = transferRowToClass(row, clazz, replaceMap);
+                    }
+                    if(o!=null){
+                        list.add(o);
+                    }
+                }
+            }catch (Exception e){
+                throw new Exception("第"+(i+1)+"行数据有问题");
             }
-            if(o!=null){
-                list.add(o);
-            }
+
         }
         return list;
     }
