@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>选择雇主</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"  href="//cdn.guanaitong.com/s2/pc/V5.0/css/common-admin.css">
+    <link rel="stylesheet" type="text/css" href="/commonView/employer/css/style.css">
+    <script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.js"></script>
+    <script src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.dialog.js"></script>
+    <script>
+        document.domain = "$!domain";
+    </script>
+</head>
+
+<body>
+<div class="popupLayer">
+    <div class="pop-bd">
+        <table width="100%">
+            <tr>
+                <td width="15%" class="c5">企业编号</td>
+                <td width="25%"><input type="text" class="u-txt" style="width:126px;" id="companyNumber"></td>
+                <td width="15%" class="c5" align='center'>企业名称</td>
+                <td width="25%"><input type="text" class="u-txt" style="width:126px;" id='companyName'></td>
+                <td align="right">
+                    <a href="javascript:;" class="u-btn u-btn-default" id="searchBtn">搜索</a>
+                </td>
+            </tr>
+        </table>
+        <div class="mt20" style="max-height: 410px; overflow-y: auto;">
+            <table class="table table-hover" width="100%" id="table">
+                <colgroup>
+                    <col width="20%"/>
+                    <col width="20%"/>
+                    <col width="60%"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>企业编号</td>
+                    <td>企业名称</td>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="clearfix mt20">
+            <div class="m-page mt4" id="pager"></div>
+            <a href="javascript:;" class="u-btn u-btn-primary fl" id="chooseBtn" onclick="choose(this)">选择</a>
+            <a href="javascript:;" class="u-btn u-btn-default fl ml6"  id="cancel">取消</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.select.js"></script>
+<script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.check.js"></script>
+<script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/pager-2.0.js"></script>
+<script>
+    var chooseId="$!chooseId";
+    $(function(){
+        search();
+        //绑定搜索按钮
+        $("#searchBtn").on("click", function () {
+            search();
+        });
+        $("#cancel").on("click", function () {
+            close();
+        })
+    })
+    function close(){
+        window.parent.$closeFunc;
+    }
+    function callback(id,name){
+        window.parent.$callbackFunc(id,name);
+    }
+
+
+    function search(){
+        params = {
+            code: $('#companyNumber').val(),
+            name: $('#companyName').val()
+        };
+        $('#pager').pager({
+            preText: '上一页',
+            nextText: '下一页',
+            shiftingLeft: 1,
+            shiftingRight: 1,
+            preLeast: 1,
+            nextLeast: 1,
+            pageIndex: 1,
+            pageSize: 2,
+            url: "/commonView/employer/getPersonBySearch",
+            searchParam: params,
+            success: function(res) {
+                var data = res.data;
+                var table = $('#table');
+                var html = '';
+                if (res.data.dataList && res.data.dataList.length) {
+                    $.each(res.data.dataList, function(index, item) {
+                        html += '<tr><td>' +
+                                '<div class="u-radio ml10" name="' + item.name + '" pid="' + item.id + '" onclick="selEmp(this)">' +
+                                '<input type="radio" name="option1"><i class="ico"></i>' +
+                                '</div>' +
+                                '</td>' +
+                                '<td>'+(item.code || '--')+'</td>' +
+                                '<td>'+(item.name || '--')+'</td>'+
+                                '</tr>';
+                    });
+                } else {
+                    html = '<tr><td colspan="6" class="m-no-result"><i class="ico"></i>暂无数据</td></tr>';
+                    $('#chooseBtn').addClass('disabled');
+                }
+                table.find('tbody').html(html);
+            },
+            complete: function() {
+                eachInput();
+            }
+        })
+    }
+
+
+    var nowChoose = [];
+    function selEmp(res) {
+        if ($(res).hasClass('disabled')) return;
+        var input = $(res).find('input');
+        if (!$(res).hasClass('checked')) {
+            $('#chooseBtn').removeClass('disabled');
+            $('.u-radio').removeClass('checked').find('input').prop('checked', false);
+            $(res).addClass('checked');
+            input.prop('checked', true);
+            nowChoose = {
+                'pid': $(res).attr('pid'),
+                'name': $(res).attr('name')
+            }
+        }
+    }
+    //遍历选中状态
+    function eachInput() {
+        $('.u-radio').each(function(i) {
+            var label = $('.u-radio').eq(i);
+//            if (label.attr('pid') == chooseId) {
+//                label.addClass('checked');
+//                label.find('input').prop('checked',true);
+//            }
+            if(nowChoose.length!=0){
+                if (label.attr('pid') == nowChoose.pid) {
+                    label.addClass('checked');
+                    $('#chooseBtn').removeClass('disabled');
+                    label.find('input').prop('checked',true);
+                    return false;
+                }
+            }
+
+        });
+    }
+
+    function choose(self){
+        if ($(self).hasClass('disabled'))return;
+        if(nowChoose.length==0){
+            close();
+            return false;
+        }
+        var name = nowChoose.name;
+        var pid = nowChoose.pid;
+##        var parentId="$!parentId";
+##        if(parentId!=null && parentId!=''){
+##            parent.$("#$parentId").val(pid);
+##        }
+##        var parentNameId="$!parentNameId";
+##        if(parentNameId!=null && parentNameId!=''){
+##            parent.$("#$parentNameId").val(name);
+##        }
+        close();
+        callback(pid,name);
+    }
+</script>
+</body>
+
+</html>

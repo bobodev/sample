@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="webkit" name="renderer">
+    <title>选择</title>
+    <link rel="stylesheet" type="text/css" href="//cdn.guanaitong.com/s2/pc/V5.0/css/common-personal.css">
+    <link rel="stylesheet" type="text/css" href="/commonView/person/css/style.css">
+    <script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.js"></script>
+    <script>
+        document.domain = "$!domain";
+    </script>
+</head>
+
+<body>
+<div class="popupLayer">
+    <div class="pop-bd">
+        <table width="100%">
+            <tr>
+                <td width="40" class="c5">工号</td>
+                <td width="110"><input type="text" id="code" class="u-txt" style="width: 78px;"></td>
+                <td width="40" class="c5">姓名</td>
+                <td width="110"><input type="text" id="name" class="u-txt" style="width: 78px;"></td>
+                <td width="70" class="c5">所属部门</td>
+                <td width="140">
+                    <div class="u-select" style="z-index: 1;">
+                        <select name="" id="departmentId">
+                            <option value="">全部</option>
+                            #foreach($!department in $!departments)
+                                <option value="$!department.id">$!department.name</option>
+                            #end
+                        </select>
+                    </div>
+                </td>
+                <td align="right">
+                    <button id="searchBtn" class="u-btn u-btn-default">搜索</button>
+                </td>
+            </tr>
+        </table>
+        <div class="mt20">
+            <table class="table table-hover" width="100%">
+                <colgroup>
+                    <col width="14%" />
+                    <col width="25%" />
+                    <col width="25%" />
+                    <col width="36%" />
+                </colgroup>
+                <thead>
+                <tr>
+                    <td>
+                        <label class="check-all ml10">
+                        </label>
+                    </td>
+                    <td>工号</td>
+                    <td>姓名</td>
+                    <td>所属部门</td>
+                </tr>
+                </thead>
+                <tbody id="table">
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix mt20">
+            <div class="m-page" id="pager">
+            </div>
+            <button id="chooseBtn" class="u-btn u-btn-primary fl disabled" onclick="choose(this)">选择</button>
+            <a class="u-btn u-btn-default fl ml6" onclick="cancel()">取消</a>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/pager-2.0.js"></script>
+<script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.check.js"></script>
+<script type="text/javascript" src="//cdn.guanaitong.com/s2/pc/V5.0/js/jquery.select.js"></script>
+<script>
+    $('.u-select').select();
+    $(function () {
+        search();
+        $("#searchBtn").click(function () {
+            search();
+        });
+    });
+    var nowChoose = [];
+    function selEmp(t) {
+        if ($(t).hasClass("disabled")) {
+            return;
+        }
+        var input = $(t).find('input');
+        if (!$(t).hasClass('checked')) {
+            $('#chooseBtn').removeClass('disabled');
+            $(t).addClass('checked');
+            input.prop('checked', true);
+            nowChoose = {
+                'memberId': $(t).attr('pmid'),
+                'name': $(t).attr('pname'),
+                'personId':$(t).parent().attr("pid")
+            }
+        }
+    }
+    function cancel(){
+        window.parent.$closeFunc;
+    }
+    function callback(personId,name){
+        window.parent.$callbackFunc(personId,name);
+    }
+    function choose(self){
+        if ($(self).hasClass('disabled'))return;
+        if(nowChoose.length==0){
+            return false;
+        }
+        callback(nowChoose);
+        cancel();
+    }
+    function search() {
+        $("#table").html("");
+        var code = $("#code").val().trim();
+        var name = $("#name").val().trim();
+        var departmentId = $("#departmentId").val();
+        $('#pager').pager({
+            pageSize: 5,
+            url: "/commonView/person/getDataBySearch",
+            type: "GET",
+            dataType: "JSON",
+            searchParam: {
+                code: code,
+                name: name,
+                departmentId: departmentId
+            },
+            showRight: false,
+            success: function (data) {
+                if (data.code == 0) {
+                    var result = data.data;
+                    var users = result.dataList;
+                    var totalCount = result.totalCount;
+                    if (totalCount>0) {
+                        var html = "";
+                        var all = 0;
+                        for (var i = 0; i < users.length; i++) {
+                            var memberId = users[i].memberId;
+                            html += '<tr>';
+                            html += '<td>';
+                            html += '<label class="u-radio unchangechecked ml10';
+                            html += ' ml10" pid="'+users[i].id+'">';
+                            html += '<input onclick="selEmp(this)" type="radio" name="option" pname="'+users[i].name+'" pmid="' + memberId + '"><i class="ico"></i>';
+                            html += '</label>';
+                            html += '</td>';
+                            html += '<td>'+users[i].code+'</td>';
+                            html += '<td>'+users[i].name+'</td>';
+                            html += '<td>'+users[i].departmentName+'</td>';
+                            html += '</tr>';
+                        }
+                        $("#table").html(html);
+                    }else{
+                        var html = '';
+                        html+='<tr><td colspan="4" class="even"><div class="m-no-data"><i class="ico"></i>暂无数据</div></td></tr>';
+                        $("#table").html(html);
+                    }
+                    $('.u-radio').radio();
+                }
+
+            }
+        });
+    }
+
+
+</script>
+</html>

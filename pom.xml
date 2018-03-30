@@ -19,6 +19,8 @@
         <module>easypoi</module>
 		<module>interceptor</module>
         <module>scaffold</module>
+        <module>mockito-derby-test</module>
+		<module>commonView</module>
     </modules>
 
 </project>
