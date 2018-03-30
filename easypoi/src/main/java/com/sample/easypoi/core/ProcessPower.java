@@ -2,7 +2,6 @@ package com.sample.easypoi.core;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class ProcessPower {
@@ -28,7 +27,7 @@ public class ProcessPower {
      * @param file
      * @return
      */
-    public static synchronized boolean canProcess(File file) throws IOException {
+    public static synchronized boolean canProcess(File file) throws Exception {
         return canProcess(new FileInputStream(file));
     }
 
@@ -37,9 +36,23 @@ public class ProcessPower {
      * @param inputStream
      * @return
      */
-    public static synchronized boolean canProcess(InputStream inputStream) throws IOException {
+    public static synchronized boolean canProcess(InputStream inputStream) throws Exception {
         long increaseSize = inputStream.available();
         return canProcess(increaseSize);
+    }
+    /**
+     * 减少容量，处理完成后调用
+     * @param inputStream
+     */
+    public static synchronized void reduce(InputStream inputStream) throws Exception {
+        reduce(inputStream.available());
+    }
+    /**
+     * 减少容量，处理完成后调用
+     * @param file
+     */
+    public static synchronized void reduce(File file) throws Exception {
+        reduce(new FileInputStream(file));
     }
     /**
      * 减少容量，处理完成后调用

@@ -108,6 +108,8 @@ public class ImportCustomColumnTest extends BaseTest {
 //
 //        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/自定义列导出_ImportCustomColumnTest(test01_export).xlsx");
 //        Thread.sleep(2000);
+
+        ProcessPower.reduce(new FileInputStream(file).available());
     }
 
     @Test
