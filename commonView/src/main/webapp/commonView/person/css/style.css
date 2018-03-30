@@ -1,0 +1,85 @@
+
+.nav-main {height:55px; line-height:55px; position: relative; overflow:hidden; background:#515567; min-width:980px}
+.nav-main h2{color:#fff;font-weight: normal;line-height: 55px;height:55px;}
+.nav-list { overflow:hidden;}
+.nav-list a{display: block; width: 110px; text-align: center; color: #fff; float: left;transition:.3s;}
+.nav-list a:hover { text-decoration: none; background: #7E818F;}
+.nav-list .nav-active { background: #7E818F;}
+
+.wm3{width: 380px;margin-left: auto;margin-right: auto;}
+.overflowY{height: 282px;overflow-y: auto;}
+
+.tr{text-align: right}
+.mt2{margin-top: 2px;}
+.mt5{margin-top: 5px;}
+.ml40{margin-left: 40px;}
+.mb60{margin-bottom: 60px;}
+.pl0{padding-left: 0;}
+
+.lh30{line-height: 30px;}
+.lh60{line-height: 60px;}
+.form-group img{display: block;}
+.table-strict img{height: 26px;}
+
+.u-checkbox.unchangechecked .ico{background: url(../img/icon-unchangechecked.png);}
+
+/*设置*/
+.add-reason{padding:8px 28px;line-height: 20px;min-width:80px;background-color: #FFF2E9;color:#f60;}
+.add-reason:hover{text-decoration: none;}
+
+.reasons-img{position: relative;text-align: center;}
+.reasons-img a{position: absolute;top:0;left:9px;display:block;width:60px;height:60px;background: url(../img/ico-bg.png) no-repeat center;background-size: cover;color:#fff;font-size: 26px;display: none;}
+.reasons-img:hover a{display: block;text-decoration: none;}
+
+.set-budget-item{padding: 30px 15px;}
+
+.reviewer-list{display: none;line-height: 26px;margin-top: 20px;}
+.reviewer-list .reviewer{float: left;padding: 0 32px 0 10px;margin:0 10px 16px 0;background-color: #F7F7F7;position: relative;}
+.reviewer-list .reviewer .icon-close{ width: 16px; height: 16px; background: url(../img/icon-close.png) no-repeat; position: absolute; top:5px; right: 5px; cursor: pointer;}
+.reviewer-list.show{display: block;}
+
+.exchange-switch{display: inline-block;width: 80px;height: 26px;background-color: #eee;overflow: hidden;cursor: pointer;border-radius: 12px;position: relative;top: 3px;transition:.2s;}
+.exchange-switch input{position: absolute; overflow: hidden; opacity: 0; filter:alpha(opacity=0); width: 24px; height: 24px;}
+.exchange-switch .circle{position: absolute;top:1px;right: 55px;background-color: #fff; width: 24px; height: 24px; overflow: hidden; border-radius: 12px; transition: 0.2s;}
+.exchange-switch .exchange-tips{font-size: 12px;color:#ccc;line-height: 26px;position: absolute;top:0;left:30px;}
+.exchange-switch.checked{background-color: #47C978;}
+.exchange-switch.checked .circle{right:1px;}
+.exchange-switch.checked .exchange-tips{color:#fff;left:13px;}
+
+/**/
+.page-num{float: left;color:#999;margin-left: 20px;line-height: 24px;}
+.page-num span{float: left;margin-right: 12px;}
+.page-num a{display: block;float: left;width:24px;height:24px;margin-right: 10px;font-size: 12px;text-align: center;}
+.page-num a.active{background-color: #F6F6F6;color:#999;}
+.page-num a.active:hover{text-decoration: none;}
+
+/*弹层*/
+.reason-icon-list{width:618px;height:220px;overflow:hidden;overflow-y:auto;position: relative;}
+.reason-icon-list li{width:100px;height: 100px;line-height:100px;margin-bottom: 10px;float: left;text-align: center;vertical-align: middle;position: relative;border-radius: 4px;cursor:pointer;}
+.reason-icon-list li:hover{background-color: #F7F7F7;}
+.reason-icon img{vertical-align: middle;}
+.reason-icon .u-radio{position: absolute;right: 1px; bottom: 5px;display:none;}
+.reason-icon-list li.checked{background-color: #F7F7F7;}
+.reason-icon-list li.checked .u-radio{display:block;}
+
+
+/*调整类型*/
+.adjust-type-list{}
+.adjust-type-list .item{border:1px #fff solid;float: left;margin-right: 20px;cursor:pointer;}
+.adjust-type-list .adjust-type{height:34px;line-height: 34px;padding-left: 16px;padding-right: 16px;border: 1px #ccc solid;background-color: #fff;color: #999;font-size: 14px;text-align: center;position: relative;}
+.adjust-type-list .triangle{width: 16px; height: 14px; background: url(../img/triangle.png) no-repeat; position: absolute; bottom: 0; right: 0;display: none;}
+.adjust-type-list .item.active{border-color: #f60;}
+.adjust-type-list .item.active .adjust-type{color: #f60;border-color: #f60;}
+.adjust-type-list .item.active .triangle{display: block;}
+.adjust-type-list .item.disabled{cursor: not-allowed;}
+.adjust-type-list .item.disabled .adjust-type{color: #ccc;border-color: #E7E7E7;background-color: #F7F7F7;}
+
+
+/**/
+.form-group .form-msg.break{line-height: 20px; font-size: 12px; display: block; margin-left: 0; font-style: normal;color:#999;}
+.form-group .form-msg.break .normal{font-style: normal;}
+.form-group .img-loading{vertical-align: middle; margin-left: 10px; display: none;}
+.form-group .input-default{font-size: 14px;line-height: 14px;}
+.file-imform{height:38px;line-height: 38px;padding:0 24px;margin: 10px 0;border:1px #F4E0A4 solid;background-color: #FFFEEE;}
+
+#calendarPanel table{background-color: #fff;}
