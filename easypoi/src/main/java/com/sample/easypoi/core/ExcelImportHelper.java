@@ -1,8 +1,8 @@
 package com.sample.easypoi.core;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.DocumentFactoryHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -68,6 +68,7 @@ public class ExcelImportHelper {
      */
     public static List<String> getHeaderRow(InputStream inputStream, ExcelImportParam param) throws Exception {
         List<String> headers = new ArrayList<>();
+        int available = inputStream.available()/1024;
         Workbook workbook = getWorkbook(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.getRow(param.getHeaderRowNum());
@@ -83,6 +84,7 @@ public class ExcelImportHelper {
             }
             headers.add(cell.getStringCellValue());
         }
+        workbook.close();
         return headers;
     }
 
@@ -142,6 +144,7 @@ public class ExcelImportHelper {
             }
 
         }
+        workbook.close();
         return list;
     }
 
@@ -290,7 +293,7 @@ public class ExcelImportHelper {
         if(POIFSFileSystem.hasPOIFSHeader(inputStream)) {
             return new HSSFWorkbook(inputStream);
         }
-        if(POIXMLDocument.hasOOXMLHeader(inputStream)) {
+        if(DocumentFactoryHelper.hasOOXMLHeader(inputStream)) {
             return new XSSFWorkbook(inputStream);
         }
         return null;

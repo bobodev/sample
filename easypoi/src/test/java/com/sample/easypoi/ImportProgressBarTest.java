@@ -24,12 +24,15 @@ public class ImportProgressBarTest extends BaseTest {
 
     @Autowired
     private DataService dataService;
+    @Autowired
+    private ProgressBarService progressBarService;
 
     @Test
     public void test01() throws Exception {
-        ProgressBar progressBar = ProgressBar.createProgressBarByCode("progressBar");
+        String progressBarCode = "progressBar";
+        progressBarService.createProgressBarByCode(progressBarCode);
 
-        dataService.judgeFinish(progressBar);
+        dataService.judgeFinish(progressBarCode);
 
         long start=System.currentTimeMillis();
 
@@ -57,11 +60,11 @@ public class ImportProgressBarTest extends BaseTest {
 //            return;
         }
 
-        progressBar.setTotal(students.size());
+        progressBarService.setTotal(progressBarCode,students.size());
         List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 2);
         List<Future<ExcelImportResult<Student>>> futures = new ArrayList<>();
         for (List<Student> studentList : sublist) {
-            futures.add(dataService.processImport(studentList,progressBar));
+            futures.add(dataService.processImport(studentList,progressBarCode));
             Thread.sleep(20);
         }
 

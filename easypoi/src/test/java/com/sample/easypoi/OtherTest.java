@@ -52,4 +52,9 @@ public class OtherTest extends BaseTest{
 //        System.out.println(bd2.setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString());
     }
 
+    @Test
+    public void test03() throws Exception{
+        String a = "0001";
+    }
+
 }
