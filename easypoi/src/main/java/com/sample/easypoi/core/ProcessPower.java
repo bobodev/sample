@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class ProcessPower {
-    private static final long maxSize = 12 * 1024 * 1024;//默认10M
+    private static final long maxSize = (long) (3.5 * 1024 * 1024);//默认10M
     private volatile static long size = 0;
 
     /**

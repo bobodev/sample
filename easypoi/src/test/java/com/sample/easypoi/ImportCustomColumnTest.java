@@ -36,60 +36,61 @@ public class ImportCustomColumnTest extends BaseTest {
         System.out.println("test01 begin ");
 
 //        File file = new File(RESOURCE_PATH + "/import/ProgressBar.xlsx");
-        File file = new File("/Users/sunguangzhu/Desktop/10w.xlsx");
+        File file = new File("/Users/sunguangzhu/Desktop/5.3w.xlsx");
         boolean b = ProcessPower.canProcess(file);
         System.out.println("b = " + b);
         if (!b) {
             throw new Exception("系统繁忙，请稍后再试");
         }
 
-        String progressBarCode = "progressBar";
+        try{
+            String progressBarCode = "progressBar";
 
-        progressBarService.createProgressBarByCode(progressBarCode);
+            progressBarService.createProgressBarByCode(progressBarCode);
 
-        dataService.judgeFinish(progressBarCode);
+            dataService.judgeFinish(progressBarCode);
 
-        long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
 
-        //数据转化
-        ExcelImportParam excelImportParam = new ExcelImportParam();
-        excelImportParam.setStartRowNum(1);
+            //数据转化
+            ExcelImportParam excelImportParam = new ExcelImportParam();
+            excelImportParam.setStartRowNum(1);
 
-        //获取headerRow
-        ExcelImportParam paramForHeaderRow = new ExcelImportParam();
-        paramForHeaderRow.setHeaderRowNum(0);
-        List<String> headerRows = ExcelImportHelper.getHeaderRow(file, paramForHeaderRow);
+            //获取headerRow
+            ExcelImportParam paramForHeaderRow = new ExcelImportParam();
+            paramForHeaderRow.setHeaderRowNum(0);
+            List<String> headerRows = ExcelImportHelper.getHeaderRow(file, paramForHeaderRow);
 
-        excelImportParam.setHeaderRows(headerRows);
-        List<Map> mapList = ExcelImportHelper.transferToList(file, Map.class, excelImportParam);
+            excelImportParam.setHeaderRows(headerRows);
+            List<Map> mapList = ExcelImportHelper.transferToList(file, Map.class, excelImportParam);
 //      System.out.println("JSON.toJSONString(mapList) = " + JSON.toJSONString(mapList));
-        System.out.println("mapList = " + mapList.size());//
-        System.out.println("test01 end ");
+            System.out.println("mapList = " + mapList.size());//
+            System.out.println("test01 end ");
 
-        //---------- gc
+            //---------- gc
 //        file=null;
 //        headerRows=null;
 //        mapList=null;
 //        Runtime.getRuntime().gc();
-        //------------gc
+            //------------gc
 
-        progressBarService.setTotal(progressBarCode, mapList.size());
-        List<List<Map>> sublist = ExcelCommonUtil.sublist(mapList, 20);
-        List<Future<ExcelImportResult<Map>>> futures = new ArrayList<>();
-        for (List<Map> tempList : sublist) {
-            futures.add(dataService.processImport2(tempList, progressBarCode));
-            Thread.sleep(20);
-        }
+            progressBarService.setTotal(progressBarCode, mapList.size());
+            List<List<Map>> sublist = ExcelCommonUtil.sublist(mapList, 20);
+            List<Future<ExcelImportResult<Map>>> futures = new ArrayList<>();
+            for (List<Map> tempList : sublist) {
+                futures.add(dataService.processImport2(tempList, progressBarCode));
+                Thread.sleep(20);
+            }
 
-        ExcelImportResult<Map> excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
+            ExcelImportResult<Map> excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
 
-        long end = System.currentTimeMillis();
-        long l = end - start;
-        System.out.println("导入数据共使用时间 " + l + " 秒");
+            long end = System.currentTimeMillis();
+            long l = end - start;
+            System.out.println("导入数据共使用时间 " + l + " 秒");
 
-        if (excelImportResult.isVerifyFail()) {
-            //导出错误的数据，参考ImportProgressBarTest.exportErrorWorkBook
-        }
+            if (excelImportResult.isVerifyFail()) {
+                //导出错误的数据，参考ImportProgressBarTest.exportErrorWorkBook
+            }
 
 //        //导出自定义列示例 基于 jxls
 //        Map<String, Object> map = new HashMap<>();
@@ -109,7 +110,11 @@ public class ImportCustomColumnTest extends BaseTest {
 //        ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/自定义列导出_ImportCustomColumnTest(test01_export).xlsx");
 //        Thread.sleep(2000);
 
-        ProcessPower.reduce(new FileInputStream(file).available());
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            ProcessPower.reduce(new FileInputStream(file).available());
+        }
     }
 
     @Test
@@ -121,16 +126,16 @@ public class ImportCustomColumnTest extends BaseTest {
         long start = System.currentTimeMillis();
         for (int i = 0; i < 30; i++) {
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        test01();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        test01();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
             test01();
         }
 
