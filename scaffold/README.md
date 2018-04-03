@@ -210,4 +210,14 @@ store.each(function(value, key) {
 
 ### 3.9. 增加DB支持
 
+1、JPA(已支持)
+
+2、mybatis(待集成)
+
+3、spring jdbcTemplate(待集成)
+
 ### 3.10. 参数验证
+
+目前继承了Validate注解校验（目前支持对象校验，方法校验暂不支持）
+
+todo 支持对象属性中二级校验
