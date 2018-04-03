@@ -7,12 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.io.IOException;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 @ComponentScan({"com.sample.scaffold"})
 @EnableCaching
+@EnableJpaAuditing
 public class Application {
 
     public static void main(String[] args) throws IOException {

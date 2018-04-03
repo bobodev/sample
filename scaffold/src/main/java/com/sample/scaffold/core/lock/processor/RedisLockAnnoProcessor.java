@@ -22,7 +22,7 @@ public class RedisLockAnnoProcessor {
     private RedisService redisService;
 
     @Around("@annotation(com.sample.scaffold.core.lock.annotation.RedisLockAnno)")
-    public Object dealExceptionForController(ProceedingJoinPoint pjp) throws Throwable {
+    public Object process(ProceedingJoinPoint pjp) throws Throwable {
         Object proceed = null;
         Method currentMethod = null;
         Class<?> aClass = pjp.getTarget().getClass();

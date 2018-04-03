@@ -7,10 +7,7 @@ import com.sample.scaffold.contract.dto.AddrDto;
 import com.sample.scaffold.contract.dto.UserDto;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class OtherTest {
 
@@ -56,5 +53,17 @@ public class OtherTest {
 
         System.out.println(s);
 
+    }
+
+
+    @Test
+    public void test03() throws Exception{
+
+        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+
+        objectObjectHashMap.put("dd","ddd");
+
+
+        System.out.println("objectObjectHashMap = " + objectObjectHashMap);
     }
 }

@@ -22,7 +22,7 @@ public class RedisCacheAnnoProcessor {
     private RedisService redisService;
 
     @Around("@annotation(com.sample.scaffold.core.cache.redis.annotation.RedisCacheAnno)")
-    public Object dealExceptionForController(ProceedingJoinPoint pjp) throws Throwable {
+    public Object process(ProceedingJoinPoint pjp) throws Throwable {
         Object proceed = null;
         Method currentMethod = null;
         Class<?> aClass = pjp.getTarget().getClass();
