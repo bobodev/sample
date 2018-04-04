@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
 public class SingleServiceTest {
@@ -29,12 +27,12 @@ public class SingleServiceTest {
     @Test
     public void saveSingle() throws Exception {
         SingleDto singleDto = new SingleDto();
-        singleDto.setPropInteger(1);
-        singleDto.setPropLong(1l);
-        singleDto.setPropDouble(1.0);
-        singleDto.setPropStr("propStr");
-        singleDto.setDescription("propDescription");
-        singleDto.setPropDate(new Date());
+//        singleDto.setPropInteger(1);
+//        singleDto.setPropLong(1l);
+//        singleDto.setPropDouble(1.0);
+//        singleDto.setPropStr("propStr");
+//        singleDto.setDescription("propDescription");
+//        singleDto.setPropDate(new Date());
         this.singleService.saveSingle(singleDto);
     }
 
