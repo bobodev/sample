@@ -34,7 +34,7 @@ public class SingleService implements ISingleService {
     }
 
     @Override
-    @ValidateAnno(cascadeValidate = true)
+    @ValidateAnno(cascadeValidate = true,fastFail = false)
     public void saveSingle(SingleDto singleDto) throws Exception {
         Single single = BeanMapperUtil.getInstance().map(singleDto, Single.class);
         this.singleRepository.save(single);

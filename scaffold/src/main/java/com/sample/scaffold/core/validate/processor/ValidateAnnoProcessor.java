@@ -42,7 +42,7 @@ public class ValidateAnnoProcessor {
                 for (Object data : dataList) {
                     //级联校验
                     if (validate.cascadeValidate()) {
-                        cascadeValidate(data, errors);
+                        cascadeValidate(data, errors, validate.fastFail());
                     } else {
                         //一级校验
                         BeanValidate.getInstance().validate(data, errors);
@@ -57,11 +57,17 @@ public class ValidateAnnoProcessor {
         return proceed;
     }
 
-    private void cascadeValidate(Object data, List<String> errors) throws Throwable {
+    private void cascadeValidate(Object data, List<String> errors, boolean fastFail) throws Throwable {
         if (data == null) {
             return;
         }
         BeanValidate.getInstance().validate(data, errors);
+        if (errors.size() > 0) {
+            if (fastFail) {
+                return;
+            }
+        }
+
         //二级校验
         Field[] declaredFields = data.getClass().getDeclaredFields();
         if (declaredFields != null) {
@@ -70,7 +76,7 @@ public class ValidateAnnoProcessor {
                 if (validate != null) {
                     declaredField.setAccessible(true);
                     Object object = declaredField.get(data);
-                    cascadeValidate(object, errors);
+                    cascadeValidate(object, errors, fastFail);
                 }
             }
         }

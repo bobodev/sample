@@ -10,4 +10,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ValidateAnno {
     boolean cascadeValidate() default false;//用在方法上，说明是否开启级联校验
+    boolean fastFail() default true;//使用与method，快速失败，针对级联校验
 }

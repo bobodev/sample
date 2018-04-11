@@ -222,3 +222,5 @@ store.each(function(value, key) {
 1、Validate注解校验（目前支持对象校验，方法校验暂不支持）
 
 2、支持级联校验
+
+3、支持快速失败校验
