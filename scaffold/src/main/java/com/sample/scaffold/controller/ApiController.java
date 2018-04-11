@@ -2,6 +2,7 @@ package com.sample.scaffold.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.sample.scaffold.contract.dto.SingleDto;
+import com.sample.scaffold.core.converter.annotation.RequestConverterAnno;
 import com.sample.scaffold.service.biz.IEchoService;
 import com.sample.scaffold.service.biz.ISingleService;
 import com.sample.scaffold.service.biz.IUserService;
@@ -34,6 +35,7 @@ public class ApiController {
     public ResponseEntity<Object> findOneUser(Long id) throws Exception {
         return ResponseEntity.ok(userService.findOneUser(id));
     }
+
     @RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteUser(Long id) throws Exception {
         return ResponseEntity.ok(userService.deleteUser(id));
@@ -41,6 +43,13 @@ public class ApiController {
 
     @RequestMapping(value = "/saveSingle", method = RequestMethod.POST)
     public ResponseEntity<Object> saveSingle(@RequestBody SingleDto singleDto) throws Exception {
+        System.out.println("JSON.toJSONString(singleDto) = " + JSON.toJSONString(singleDto));
+        singleService.saveSingle(singleDto);
+        return ResponseEntity.ok(true);
+    }
+
+    @RequestMapping(value = "/saveSingle2", method = RequestMethod.POST)
+    public ResponseEntity<Object> saveSingle2(@RequestConverterAnno SingleDto singleDto,String personName) throws Exception {
         System.out.println("JSON.toJSONString(singleDto) = " + JSON.toJSONString(singleDto));
         singleService.saveSingle(singleDto);
         return ResponseEntity.ok(true);

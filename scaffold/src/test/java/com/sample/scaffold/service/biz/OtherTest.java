@@ -3,11 +3,15 @@ package com.sample.scaffold.service.biz;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.google.common.base.CaseFormat;
 import com.sample.scaffold.contract.dto.AddrDto;
 import com.sample.scaffold.contract.dto.UserDto;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class OtherTest {
 
@@ -58,12 +62,7 @@ public class OtherTest {
 
     @Test
     public void test03() throws Exception{
-
-        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-
-        objectObjectHashMap.put("dd","ddd");
-
-
-        System.out.println("objectObjectHashMap = " + objectObjectHashMap);
+        String my_name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "myName");
+        System.out.println( my_name);
     }
 }

@@ -224,3 +224,7 @@ store.each(function(value, key) {
 2、支持级联校验
 
 3、支持快速失败校验
+
+### 3.11. Controller层接收下划线自动转驼峰
+
+1、在需要转化的方法参数前加上 RequestConverterAnno 注解
