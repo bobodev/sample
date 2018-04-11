@@ -1,6 +1,7 @@
 package com.sample.scaffold.contract.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.sample.scaffold.core.validate.annotation.ValidateAnno;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Digits;
@@ -61,6 +62,18 @@ public class SingleDto implements java.io.Serializable {
     @NotEmpty(message = "description不允许为空")
     @Size(min = 0, max = 200, message = "propStr允许输入长度范围为【0-200】")
     private String description;
+
+    @ValidateAnno
+    @NotNull(message = "userDto不允许为空")
+    private UserDto userDto;
+
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
 
     public String getPropStr() {
         return propStr;

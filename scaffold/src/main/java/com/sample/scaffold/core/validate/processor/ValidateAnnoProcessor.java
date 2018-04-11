@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,13 @@ public class ValidateAnnoProcessor {
                 List<String> errors = new ArrayList<>();
                 Object[] dataList = pjp.getArgs();
                 for (Object data : dataList) {
-                    //一级校验
-                    BeanValidate.getInstance().validate(data, errors);
+                    //级联校验
+                    if (validate.cascadeValidate()) {
+                        cascadeValidate(data, errors);
+                    } else {
+                        //一级校验
+                        BeanValidate.getInstance().validate(data, errors);
+                    }
                     if (errors.size() > 0) {
                         throw new ServiceException(JSON.toJSONString(errors));
                     }
@@ -49,5 +55,24 @@ public class ValidateAnnoProcessor {
         }
         proceed = pjp.proceed();
         return proceed;
+    }
+
+    private void cascadeValidate(Object data, List<String> errors) throws Throwable {
+        if (data == null) {
+            return;
+        }
+        BeanValidate.getInstance().validate(data, errors);
+        //二级校验
+        Field[] declaredFields = data.getClass().getDeclaredFields();
+        if (declaredFields != null) {
+            for (Field declaredField : declaredFields) {
+                ValidateAnno validate = declaredField.getAnnotation(ValidateAnno.class);
+                if (validate != null) {
+                    declaredField.setAccessible(true);
+                    Object object = declaredField.get(data);
+                    cascadeValidate(object, errors);
+                }
+            }
+        }
     }
 }

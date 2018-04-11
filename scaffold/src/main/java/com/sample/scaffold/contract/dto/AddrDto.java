@@ -1,6 +1,12 @@
 package com.sample.scaffold.contract.dto;
 
-public class AddrDto {
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
+
+public class AddrDto implements java.io.Serializable{
+    @NotEmpty(message = "homeAddr不允许为空")
+    @Size(min = 0, max = 50, message = "homeAddr允许输入长度范围为【0-50】")
     private String homeAddr;
     private String companyAddr;
 
