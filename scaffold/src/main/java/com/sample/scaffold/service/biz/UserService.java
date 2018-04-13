@@ -1,10 +1,7 @@
 package com.sample.scaffold.service.biz;
 
 import com.sample.scaffold.model.User;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -35,5 +32,18 @@ public class UserService implements IUserService{
     public User updateUser(User user) throws Exception {
         user.setContactAddress("江苏省");
         return user;
+    }
+
+    /**
+     * 失效多个缓存
+     */
+    @Caching(
+            evict = {
+                    @CacheEvict("user"),
+                    @CacheEvict("scaffold")
+            }
+    )
+    public void deleteAllCache(){
+
     }
 }

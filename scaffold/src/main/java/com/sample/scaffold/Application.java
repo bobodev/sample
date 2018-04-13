@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentMap;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 @ComponentScan({"com.sample.scaffold"})
@@ -21,6 +22,7 @@ public class Application {
         SpringApplication.run(new Object[]{Application.class}, args);
         new Thread(() -> {
             while (true) {
+                ConcurrentMap<Object, Object> store = DefaultCacheManager.store;
                 System.out.println(" DefaultCacheManager.store = " + JSON.toJSONString(DefaultCacheManager.store));
                 try {
                     Thread.sleep(5000);
