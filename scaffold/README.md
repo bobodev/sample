@@ -126,7 +126,7 @@ util包放置了一些工具类
 
 2.前端文件名称下划线方式。如user_list.html、user_add.html,含有业务含义的以文件夹进行区分
 
-3.请求路径命名：驼峰命名。如/api/scaffold/listUser、/api/scaffold/addUser
+3.请求路径命名：前端请求路径蛇形,如/api/scaffold/list_user;巨灵神路径驼峰命名。如/api/scaffold/listUser、/api/scaffold/addUser
 
 ### 3.4. 前端页面参数自动存储记忆
 
@@ -213,7 +213,7 @@ store.each(function(value, key) {
 
 1、JPA(已支持)
 
-2、mybatis(待集成)
+2、mybatis(已支持)
 
 3、spring jdbcTemplate(待集成)
 

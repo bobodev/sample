@@ -25,7 +25,7 @@ import java.util.Properties;
  * Created by wanchongyang on 2017/9/8.
  */
 @Configuration
-@MapperScan(basePackages = "com.sample.test.dao", sqlSessionTemplateRef = "hikariSqlSessionTemplate")
+@MapperScan(basePackages = "com.sample.test.mapper", sqlSessionTemplateRef = "hikariSqlSessionTemplate")
 public class DataSourceConfig {
     @Autowired
     private PageHelperProperties pageHelperProperties;

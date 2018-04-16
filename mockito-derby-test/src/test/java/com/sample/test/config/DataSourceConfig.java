@@ -18,7 +18,7 @@ import java.util.Properties;
  * @date 2018/2/28
  */
 @Configuration
-@MapperScan(basePackages = "com.sample.test.dao", sqlSessionTemplateRef = "hikariSqlSessionTemplate")
+@MapperScan(basePackages = "com.sample.test.mapper", sqlSessionTemplateRef = "hikariSqlSessionTemplate")
 public class DataSourceConfig extends BaseDSConfig {
 
     @Bean(name = "hikariDataSource")
