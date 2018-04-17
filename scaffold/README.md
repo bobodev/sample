@@ -221,11 +221,18 @@ store.each(function(value, key) {
 
 ### 3.10. 参数验证
 
-1、Validate注解校验（目前支持对象校验，方法校验暂不支持）
+1、Validate注解校验
 
 2、支持级联校验
 
 3、支持快速失败校验
+
+4、支持方法中基本参数校验，但是如果用到了接口，接口中需要指定校验的内容，否则会报错。如：
+
+```
+    SingleDto findOneSingle(@NotNull(message = "id不允许为空") Long id) throws Exception;
+
+```
 
 ### 3.11. Controller层接收下划线自动转驼峰
 
