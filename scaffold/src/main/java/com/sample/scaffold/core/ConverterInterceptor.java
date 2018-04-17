@@ -19,7 +19,6 @@ public class ConverterInterceptor implements ResponseBodyAdvice {
 
     static {
         serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
-
     }
 
     @Override

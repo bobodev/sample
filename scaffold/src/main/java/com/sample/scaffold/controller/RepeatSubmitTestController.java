@@ -34,16 +34,9 @@ public class RepeatSubmitTestController {
      */
     @RequestMapping("/submit")
     public String submit(String token) throws Exception {
-        try{
-            tokenManager.validateToken(token);
-            //业务方法开始
-
-            //业务方法结束
-        }catch (Exception e){
-            //异常信息
-        }finally {
-            tokenManager.removeToken(token);//最好移除，不移除的化默认一天失效
-        }
+        tokenManager.validateToken(token);
+        //业务方法开始
+        //业务方法结束
         return "xxx";
     }
 
