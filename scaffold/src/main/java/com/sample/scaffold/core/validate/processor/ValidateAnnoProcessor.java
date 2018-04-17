@@ -7,6 +7,7 @@ import com.sample.scaffold.core.validate.annotation.ValidateAnno;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,31 +26,30 @@ public class ValidateAnnoProcessor {
     @Around("@annotation(com.sample.scaffold.core.validate.annotation.ValidateAnno)")
     public Object process(ProceedingJoinPoint pjp) throws Throwable {
         Object proceed = null;
-        Method currentMethod = null;
-        Class<?> aClass = pjp.getTarget().getClass();
-        Method[] methods = aClass.getDeclaredMethods();
-        for (Method method : methods) {
-            if (method.getName().equals(pjp.getSignature().getName())) {
-                currentMethod = method;
-                break;
-            }
-        }
+        Object target = pjp.getThis();
+        Object[] args = pjp.getArgs();
+        Method currentMethod = ((MethodSignature) pjp.getSignature()).getMethod();
+
         if (currentMethod.isAnnotationPresent(ValidateAnno.class)) {
+            List<String> errors = new ArrayList<>();
             ValidateAnno validate = currentMethod.getAnnotation(ValidateAnno.class);
-            if (validate != null) {
-                List<String> errors = new ArrayList<>();
-                Object[] dataList = pjp.getArgs();
-                for (Object data : dataList) {
-                    //级联校验
-                    if (validate.cascadeValidate()) {
-                        cascadeValidate(data, errors, validate.fastFail());
-                    } else {
-                        //一级校验
-                        BeanValidate.getInstance().validate(data, errors);
-                    }
-                    if (errors.size() > 0) {
-                        throw new ServiceException(JSON.toJSONString(errors));
-                    }
+            errors = BeanValidate.getInstance().validMethodParams(target, currentMethod, args, errors);
+            if (validate.fastFail()) {
+                if (errors.size() > 0) {
+                    throw new ServiceException(JSON.toJSONString(errors));
+                }
+            }
+
+            for (Object data : args) {
+                //级联校验
+                if (validate.cascadeValidate()) {
+                    cascadeValidate(data, errors, validate.fastFail());
+                } else {
+                    //一级校验
+                    BeanValidate.getInstance().validate(data, errors);
+                }
+                if (errors.size() > 0) {
+                    throw new ServiceException(JSON.toJSONString(errors));
                 }
             }
         }
@@ -81,4 +81,5 @@ public class ValidateAnnoProcessor {
             }
         }
     }
+
 }

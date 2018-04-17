@@ -9,12 +9,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import javax.persistence.EntityManager;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -65,6 +69,27 @@ public class ApplicationConfigure {
 
     private Map<String, String> getVendorProperties(DruidDataSource dataSource) {
         return jpaProperties.getHibernateProperties(dataSource);
+    }
+
+    @Bean(name = "transactionManager")
+    @Primary
+    PlatformTransactionManager transactionManager(EntityManagerFactoryBuilder builder) throws SQLException {
+        JpaTransactionManager tm =
+                new JpaTransactionManager();
+        tm.setEntityManagerFactory(entityManagerFactory(builder).getObject());
+        tm.setDataSource(dataSource());
+        return tm;
+    }
+
+    @Bean(name = "transactionInterceptor")
+    @Primary
+    public TransactionInterceptor transactionInterceptor(EntityManagerFactoryBuilder builder) throws SQLException {
+        TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+        transactionInterceptor.setTransactionManager(transactionManager(builder));
+        Properties transactionAttributes = new Properties();
+        transactionAttributes.setProperty("*", "PROPAGATION_REQUIRED,-Exception");
+        transactionInterceptor.setTransactionAttributes(transactionAttributes);
+        return transactionInterceptor;
     }
 
 }

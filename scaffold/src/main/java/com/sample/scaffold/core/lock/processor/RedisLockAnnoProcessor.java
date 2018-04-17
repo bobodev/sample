@@ -5,6 +5,7 @@ import com.sample.scaffold.service.technology.RedisService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,7 @@ public class RedisLockAnnoProcessor {
     @Around("@annotation(com.sample.scaffold.core.lock.annotation.RedisLockAnno)")
     public Object process(ProceedingJoinPoint pjp) throws Throwable {
         Object proceed = null;
-        Method currentMethod = null;
-        Class<?> aClass = pjp.getTarget().getClass();
-        Method[] methods = aClass.getDeclaredMethods();
-        for (Method method : methods) {
-            if (method.getName().equals(pjp.getSignature().getName())) {
-                currentMethod = method;
-                break;
-            }
-        }
+        Method currentMethod = ((MethodSignature) pjp.getSignature()).getMethod();
         RedisLockAnno redisLockAnno = currentMethod.getAnnotation(RedisLockAnno.class);
         String key = redisLockAnno.key();
         int expired = redisLockAnno.expired();

@@ -14,6 +14,7 @@ public class ExceptionHandle {
     @ExceptionHandler(value = {Exception.class})
     @ResponseBody
     public ResponseEntity<Object> jsonErrorHandler(Exception exception) throws Exception {
+        exception.printStackTrace();
         ServiceException serviceException;
         if (exception instanceof ServiceException) {
             serviceException = (ServiceException) exception;

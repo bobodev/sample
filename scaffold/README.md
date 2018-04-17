@@ -282,4 +282,7 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
 2、解决response.sendRedirect
 
 ```
+    response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+    response.setHeader("Location", "/a.html");
+        
 ```

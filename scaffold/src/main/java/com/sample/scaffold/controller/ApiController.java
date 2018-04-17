@@ -41,6 +41,12 @@ public class ApiController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
+    @RequestMapping(value = "/findOneSingle", method = RequestMethod.GET)
+    public ResponseEntity<Object> findOneSingle(Long id) throws Exception {
+        SingleDto oneSingle = singleService.findOneSingle(id);
+        return ResponseEntity.ok(oneSingle);
+    }
+
     @RequestMapping(value = "/saveSingle", method = RequestMethod.POST)
     public ResponseEntity<Object> saveSingle(@RequestBody SingleDto singleDto) throws Exception {
         System.out.println("JSON.toJSONString(singleDto) = " + JSON.toJSONString(singleDto));
