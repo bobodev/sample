@@ -13,9 +13,10 @@
 3.8. 定时任务的分布式锁机制，避免多台机器同时运行。同时支持动态干预任务的执行
 3.9. 增加DB支持
 3.10. 参数验证
-3.11. 日志
+3.11. Controller层接收下划线自动转驼峰
 3.12. 启用https支持
 3.13. https重定向到http
+3.14. 防重复提交
 
 ```
 
@@ -199,7 +200,15 @@ store.each(function(value, key) {
 
 
 ### 3.7. 指定包方法返回值的JSON序列化为下划线
-参考类 ConverterInterceptor
+
+1、参考类 ConverterInterceptor
+
+2、指定影响的包名
+
+```
+    @ControllerAdvice(basePackages = "com.sample.scaffold.controller")
+
+```
 
 ### 3.8. 定时任务的分布式锁机制，避免多台机器同时运行。同时支持动态干预任务的执行
 参考 RedisLockAnno和RedisLockAnnoProcessor
@@ -236,7 +245,21 @@ store.each(function(value, key) {
 
 ### 3.11. Controller层接收下划线自动转驼峰
 
-1、在需要转化的方法参数前加上 RequestConverterAnno 注解
+注:如果接收方式为application/json则无需配置。
+
+1、WebMvcConfig加上代码
+
+```
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+
+        // 注册JsonPathArgumentResolver的参数分解器
+        argumentResolvers.add(new MyArgumentResolver());
+    }
+```
+
+2、在需要转化的方法参数前加上 RequestConverterAnno 注解
+
 
 ### 3.12. 启用https支持
 
@@ -292,4 +315,91 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
     response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
     response.setHeader("Location", "/a.html");
         
+```
+
+### 3.14. 防止重复提交
+
+源码参见 TokenManager
+
+1、通用解决方案
+
+* 产生token
+* 验证token
+* 移除token
+
+2、mvc项目解决方案
+
+```
+    @Autowired
+    private TokenManager tokenManager;
+
+    /**
+     * 产生token
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/productToken")
+    public String productToken(ModelMap model) throws Exception {
+        model.addAttribute("token",tokenManager.productToken());
+        return "xxx";
+    }
+
+    /**
+     * 表单防重复提交（token参数可以防止在header）
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/submit")
+    public String submit(String token) throws Exception {
+        try{
+            tokenManager.validateToken(token);
+            //业务方法开始
+            
+            //业务方法结束
+        }catch (Exception e){
+            //异常信息
+        }finally {
+            tokenManager.removeToken(token);//最好移除，不移除的化默认一天失效
+        }
+        return "xxx";
+    }
+```
+
+3、前后端分离项目解决方案
+
+```
+    /**
+     * 产生token fox ajax
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/productTokenFoxAjax")
+    @ResponseBody
+    public String productTokenFoxAjax() throws Exception {
+        return tokenManager.productToken();
+    }
+
+    /**
+     * 表单防重复提交（token参数可以防止在header）
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/submit")
+    public String submit(String token) throws Exception {
+        try{
+            tokenManager.validateToken(token);
+            //业务方法开始
+            
+            //业务方法结束
+        }catch (Exception e){
+            //异常信息
+        }finally {
+            tokenManager.removeToken(token);//最好移除，不移除的化默认一天失效
+        }
+        return "xxx";
+    }
+    
 ```
