@@ -14,6 +14,8 @@
 3.9. 增加DB支持
 3.10. 参数验证
 3.11. 日志
+3.12. 启用https支持
+3.13. https重定向到http
 
 ```
 
@@ -228,3 +230,56 @@ store.each(function(value, key) {
 ### 3.11. Controller层接收下划线自动转驼峰
 
 1、在需要转化的方法参数前加上 RequestConverterAnno 注解
+
+### 3.12. 启用https支持
+
+1、确认项目根目录下含有证书文件，如果没有生成一个
+
+```
+keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -keystore keystore.p12 -validity 3650
+
+```
+
+2、application.properties 打开注释，开启https支持
+
+```
+#https支持
+#server.ssl.key-store=keystore.p12
+#server.ssl.key-store-password=123456
+#server.ssl.keyStoreType=PKCS12
+#server.ssl.keyAlias:tomcat
+
+```
+### 3.13. https重定向到http
+
+在本地测试了下什么不配置也是ok的。
+
+贴一下解决方案：
+
+1、解决redirect，重写InternalResourceViewResolver
+
+```
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setRedirectHttp10Compatible(false);
+        registry.viewResolver(resolver);
+    }
+
+
+```
+或者
+
+```
+    @Bean
+    public InternalResourceViewResolver defaultViewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setRedirectHttp10Compatible(false);
+        return resolver;
+    }
+```
+
+2、解决response.sendRedirect
+
+```
+```
