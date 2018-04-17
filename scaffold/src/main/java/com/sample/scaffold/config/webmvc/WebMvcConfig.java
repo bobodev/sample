@@ -34,4 +34,18 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         // 注册JsonPathArgumentResolver的参数分解器
         argumentResolvers.add(new MyArgumentResolver());
     }
+
+//    @Override
+//    public void configureViewResolvers(ViewResolverRegistry registry) {
+//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//        resolver.setRedirectHttp10Compatible(false);
+//        registry.viewResolver(resolver);
+//    }
+
+//    @Bean
+//    public InternalResourceViewResolver defaultViewResolver() {
+//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//        resolver.setRedirectHttp10Compatible(false);
+//        return resolver;
+//    }
 }
