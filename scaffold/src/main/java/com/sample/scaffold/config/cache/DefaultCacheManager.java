@@ -1,9 +1,11 @@
 package com.sample.scaffold.config.cache;
 
+import com.google.common.cache.CacheBuilder;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.guava.GuavaCache;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -13,20 +15,27 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class DefaultCacheManager extends CachingConfigurerSupport {
     public final static ConcurrentMap<Object, Object> store = new ConcurrentHashMap<>();
+    public static Map<String, Long> expires = new ConcurrentHashMap<>();
+
+    static {
+        expires.put("scaffold", 5 * 60l);
+        expires.put("user", 5 * 60l);
+    }
 
     @Bean("simpleCacheManager")
     public CacheManager simpleCacheManager() {
         SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
-        List<String> cacheNames = new ArrayList<>(Arrays.asList("scaffold", "user"));
+        List<String> cacheNames = new ArrayList<>(expires.keySet());
         List<Cache> caches = new ArrayList<>();
         for (String cacheName : cacheNames) {
             caches.add(new ConcurrentMapCache(cacheName, store, true));
@@ -35,21 +44,30 @@ public class DefaultCacheManager extends CachingConfigurerSupport {
         return simpleCacheManager;
     }
 
+    @Bean("guavaCacheManager")
+    public CacheManager cacheManager() {
+        SimpleCacheManager cacheManager = new SimpleCacheManager();
+        List<Cache> guavaCaches = new ArrayList<>();
+        Set<Map.Entry<String, Long>> entries = expires.entrySet();
+        for (Map.Entry<String, Long> entry : entries) {
+            GuavaCache guavaCache = new GuavaCache(entry.getKey(), CacheBuilder.newBuilder()
+                    .maximumSize(100).expireAfterAccess(entry.getValue(), TimeUnit.SECONDS).build());
+            guavaCaches.add(guavaCache);
+        }
+        cacheManager.setCaches(guavaCaches);
+        return cacheManager;
+    }
+
     @Bean("redisCacheManager")
     @Primary
     public CacheManager redisCacheManager(RedisTemplate redisTemplate) {
-        List<String> cacheNames = new ArrayList<>(Arrays.asList("scaffold", "user"));
+        List<String> cacheNames = new ArrayList<>(expires.keySet());
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate, cacheNames, true);
-        //配置缓存的过期时间
-        Map<String, Long> expires = new ConcurrentHashMap<>();
-        expires.put("scaffold", 5 * 60l);
-        expires.put("user", 5 * 60l);
-
         redisCacheManager.setDefaultExpiration(60);
+        redisCacheManager.setExpires(expires);
         redisCacheManager.setTransactionAware(true);
         redisCacheManager.setLoadRemoteCachesOnStartup(true);
-        redisCacheManager.setUsePrefix(true);
-        redisCacheManager.setExpires(expires);
+        redisCacheManager.setUsePrefix(false);
         return redisCacheManager;
     }
 

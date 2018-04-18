@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-//@CacheConfig(cacheManager = "redisCacheManager",cacheNames = "user" )
-@CacheConfig(cacheManager = "simpleCacheManager",cacheNames = "scaffold" )
+@CacheConfig(cacheManager = "redisCacheManager",cacheNames = "user" )
+//@CacheConfig(cacheManager = "simpleCacheManager",cacheNames = "scaffold" )
 public class UserService implements IUserService{
 
     @Override
@@ -22,7 +22,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    @CacheEvict(key = "#id.toString()")
+    @CacheEvict(key = "#id.toString()",beforeInvocation = true)
     public User deleteUser(Long id) throws Exception {
         return null;
     }

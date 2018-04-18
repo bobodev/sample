@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 @ComponentScan({"com.sample.scaffold"})
 @EnableCaching
 @EnableJpaAuditing
+@EnableScheduling
 public class Application {
 
     public static void main(String[] args) throws IOException {
