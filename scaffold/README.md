@@ -17,7 +17,6 @@
 3.12. 启用https支持
 3.13. https重定向到http
 3.14. 防重复提交
-
 ```
 
 ## scaffold
@@ -97,6 +96,25 @@ util包放置了一些工具类
 
 ```
 
+附:MVC解决方案
+
+```
+<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/api/scaffold/**/*"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <bean class="com.sample.scaffold.controller.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+</mvc:interceptors>
+    
+```
+
+
 ### 3.2. 缓存
 
 主要是DefaultCacheManager类。目前继承了redisCache和simpleCacheManager，可以实现指定缓存实现
@@ -122,6 +140,31 @@ util包放置了一些工具类
 4.https://www.jianshu.com/p/275cb42080d9
 
 5.https://www.journaldev.com/18141/spring-boot-redis-cache
+
+附:MVC解决方案
+
+```
+@Configuration
+@EnableCaching
+public class AppConfig {
+}
+```
+
+或
+
+```
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+        <cache:annotation-driven />
+
+</beans>
+
+```
 
 ### 3.3. 路径规范
 
@@ -172,18 +215,27 @@ store.each(function(value, key) {
 参考参考WebMvcConfig
 
 ```
-    @ExceptionHandler(value = {Exception.class})
-    @ResponseBody
-    public ResponseEntity<ServiceException> jsonErrorHandler(Exception exception) throws Exception {
-        ServiceException serviceException;
-        if (exception instanceof ServiceException) {
-            serviceException = (ServiceException) exception;
-        } else {
-            serviceException = new ServiceException(exception);
-            serviceException.setMessage(exception.getMessage());
+    @Configuration
+    @ControllerAdvice
+    public class ExceptionHandle {
+    
+        @ExceptionHandler(value = {Exception.class})
+        @ResponseBody
+        public ResponseEntity<Object> jsonErrorHandler(Exception exception) throws Exception {
+            ServiceException serviceException;
+            if (exception instanceof ServiceException) {
+                serviceException = (ServiceException) exception;
+            } else if (exception instanceof UndeclaredThrowableException) {
+                Throwable cause = exception.getCause();
+                serviceException = new ServiceException(cause.getMessage());
+            } else {
+                serviceException = new ServiceException(exception);
+                serviceException.setMessage(exception.getMessage());
+            }
+            ResponseEntity<Object> responseEntity = ResponseEntity.badRequest().body(serviceException.getExceptionMap());
+            return responseEntity;
         }
-        ResponseEntity<ServiceException> responseEntity = ResponseEntity.badRequest().body(serviceException);
-        return responseEntity;
+    
     }
 ```
 
@@ -214,11 +266,32 @@ store.each(function(value, key) {
 参考 RedisLockAnno和RedisLockAnnoProcessor
 使用步骤：
 
-1、在定时任务上指定@RedisLockAnno，指定相关key和expired，通过execKey指定是否要执行，默认执行
+1、启动上加入@EnableScheduling
 
-2、目前尚未集成任务的动态干预，参考gitlab上jd-job项目已经实现结合gconf动态干预任务。
+2、在定时任务上指定@RedisLockAnno，指定相关key和expired，通过execKey指定是否要执行，默认执行
 
-3、相关例子程序有空补上
+3、目前尚未集成任务的动态干预，参考gitlab上jd-job项目已经实现结合gconf动态干预任务。
+
+附:MVC解决方案
+
+```
+    @Configuration
+    @EnableAsync
+    @EnableScheduling
+    public class AppConfig {
+    }
+```
+
+或
+
+
+```
+<task:annotation-driven>
+<task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
+<task:executor id="myExecutor" pool-size="5"/>
+<task:scheduler id="myScheduler" pool-size="10"/>
+
+```
 
 ### 3.9. 增加DB支持
 
@@ -227,6 +300,10 @@ store.each(function(value, key) {
 2、mybatis(已支持)
 
 3、spring jdbcTemplate(待集成)
+
+附:MVC解决方案
+
+mvc项目下mybatis参考别的mvc项目配置。或者使用项目中的配置，但是变量获取的方式改一下即可。
 
 ### 3.10. 参数验证
 
@@ -257,6 +334,14 @@ store.each(function(value, key) {
         argumentResolvers.add(new MyArgumentResolver());
     }
 ```
+附:MVC解决方案
+
+```
+<mvc:argument-resolvers>  
+    <bean class="com.sample.scaffold.core.MyArgumentResolver"/>  
+</mvc:argument-resolvers>  
+
+```
 
 2、在需要转化的方法参数前加上 RequestConverterAnno 注解
 
@@ -280,6 +365,11 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
 #server.ssl.keyAlias:tomcat
 
 ```
+
+附:MVC解决方案
+
+暂时不支持
+
 ### 3.13. https重定向到http
 
 在本地测试了下什么不配置也是ok的。
