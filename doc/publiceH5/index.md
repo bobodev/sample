@@ -15,7 +15,8 @@
 <h4 id="1">已经绑定手机设置支付密码</h4>
 
 ```
-无
+手机h5:
+https://mobile.guanaitong.com/index.php?wxA=PasswordSetting.changePayPassword&callBackUrl=XXX
 ```
 
 <h4 id="2">未绑定手机设置支付密码或忘记密码重置密码</h4>
@@ -34,12 +35,11 @@ https://secure.guanaitong.com/index.php?wxA=Person.index
 
 ```
 修改手机H5:
-https://mobile.guanaitong.com/index.php?wxA=MyMobile.index
+https://mobile.guanaitong.com/index.php?wxA=MyMobile.index&&callBackUrl=XXX
 
 修改手机PC:
 https://secure.guanaitong.com/index.php?wxA=Person.index
 
-都不支持跳回url的传入
 ```
 
 <h4 id="4">忘记登录密码</h4>
@@ -72,7 +72,8 @@ https://my.guanaitong.com/index.php?m=security&a=changePassword
 企业PC:
 https://my.guanaitong.com/index.php?m=security&a=changePayPassword
 
-不支持跳回url的传入
+手机h5：
+https://mobile.guanaitong.com/index.php?wxA=PasswordSetting.changePayPassword&callBackUrl=XXX
 ```
 
 <h4 id="7">登录</h4>
