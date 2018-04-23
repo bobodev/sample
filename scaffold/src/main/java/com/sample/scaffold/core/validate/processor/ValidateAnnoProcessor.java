@@ -21,6 +21,8 @@ import java.util.List;
 @Component
 public class ValidateAnnoProcessor {
 
+    private final String PARAM_VALIDATE_ERROR = "PARAM_VALIDATE_ERROR";
+
     private final static Logger logger = LoggerFactory.getLogger(ValidateAnnoProcessor.class);
 
     @Around("@annotation(com.sample.scaffold.core.validate.annotation.ValidateAnno)")
@@ -36,7 +38,7 @@ public class ValidateAnnoProcessor {
             errors = BeanValidate.getInstance().validMethodParams(target, currentMethod, args, errors);
             if (validate.fastFail()) {
                 if (errors.size() > 0) {
-                    throw new ServiceException(JSON.toJSONString(errors));
+                    throw new ServiceException(PARAM_VALIDATE_ERROR,JSON.toJSONString(errors));
                 }
             }
 
@@ -49,7 +51,7 @@ public class ValidateAnnoProcessor {
                     BeanValidate.getInstance().validate(data, errors);
                 }
                 if (errors.size() > 0) {
-                    throw new ServiceException(JSON.toJSONString(errors));
+                    throw new ServiceException(PARAM_VALIDATE_ERROR,JSON.toJSONString(errors));
                 }
             }
         }
