@@ -270,7 +270,24 @@ store.each(function(value, key) {
 
 2、在定时任务上指定@RedisLockAnno，指定相关key和expired，通过execKey指定是否要执行，默认执行
 
-3、目前尚未集成任务的动态干预，参考gitlab上jd-job项目已经实现结合gconf动态干预任务。
+3、目前尚未集成任务的动态干预，如果要实现，参考gitlab上jd-job项目RedisLockAnnoProcessor已经实现结合gconf动态干预任务。
+
+4、例子：
+
+```
+@Service
+public class ScheduleFactory {
+    private static final String SYNC_TEST_REDIS_LOCK_KEY = "SYNC_TEST_REDIS_LOCK_KEY";
+    private static final int SYNC_TEST_REDIS_LOCK_KEY_EXPIRED = 60 * 1000;//60s
+
+    @Scheduled(fixedDelay = 10 * 1000)
+    @RedisLockAnno(key = SYNC_TEST_REDIS_LOCK_KEY, expired = SYNC_TEST_REDIS_LOCK_KEY_EXPIRED, execKey = "syncTest")
+    public void syncTest() throws Exception {
+        Thread.sleep(5000);
+    }
+
+}
+```
 
 附:MVC解决方案
 
