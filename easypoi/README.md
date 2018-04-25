@@ -11,7 +11,13 @@
 2.2.1. 标准模版导入[ImportTest.java]
 2.2.2. 模版导入-validation验证[ImportTest.java]
 2.2.3. 模版导入-多线程处理业务验证[ImportProgressBarTest]
-2.2.4. 模版导入-实时进度条[ProgressBarBase]
+2.2.4. 模版导入-实时进度条[ProgressBar、ProgressBarService]
+2.3. 其他
+2.3.1. 获取表头
+2.3.2. 自定义列导入
+2.3.3. 基于jxls的自定义列导出
+2.3.4. 获取最大行
+2.3.5. 限制系统同时处理excel的大小[ProcessPower]
 3. 参考文档
 ```
 
@@ -41,6 +47,11 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jxls</groupId>
+            <artifactId>jxls-core</artifactId>
+            <version>1.0.5</version>
         </dependency>
 
 ```
@@ -206,32 +217,43 @@
 ```
     @Test
     public void test01() throws Exception {
-        dataService.judgeFinish();
+        String progressBarCode = "progressBar";
+        progressBarService.createProgressBarByCode(progressBarCode);
 
-        long start=System.currentTimeMillis();
+        dataService.judgeFinish(progressBarCode);
 
         File file = new File(RESOURCE_PATH + "/import/ProgressBar.xlsx");
         //数据转化
         ExcelImportParam excelImportParam = new ExcelImportParam();
         excelImportParam.setStartRowNum(2);
         List<Student> students = ExcelImportHelper.transferToList(file, Student.class, excelImportParam);
-        ProgressBar.setTotal(students.size());
-        List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 50);
+
+        ExcelImportResult<Student> excelImportResult = new ExcelImportResult();
+        List<Student> failList = excelImportResult.getFailList();
+        //基本校验
+        students.stream().forEach(o->{
+            String errorMsg = PoiValidationUtil.validation(o, null);
+            if(!StringUtils.isEmpty(errorMsg)){
+                o.setErrorMsg(errorMsg);
+                failList.add(o);
+            }
+        });
+
+        if(excelImportResult.isVerifyFail()){//如果失败直接返回
+            return;
+        }
+
+        progressBarService.setTotal(progressBarCode,students.size());
+        List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 2);
         List<Future<ExcelImportResult<Student>>> futures = new ArrayList<>();
         for (List<Student> studentList : sublist) {
-            futures.add(dataService.processImport(studentList));
-            Thread.sleep(10);
+            futures.add(dataService.processImport(studentList,progressBarCode));
+            Thread.sleep(20);
         }
-        ExcelImportResult excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
 
-        long end=System.currentTimeMillis();
-        long l = end - start;
-        System.out.println("导入数据共使用时间 " + l+" 秒");
-
-        if (excelImportResult.isVerifyFail()) {
-            this.exportErrorWorkBook(excelImportResult.getFailList());
-        }
+        excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
     }
+
 ```
 
 说明：
@@ -247,9 +269,138 @@
 5. 根据需要处理是否需要导出失败的记录对应的excel
 
 ### 2.2.4. 模版导入-实时进度条[ProgressBarBase]
-1. 建议为每个业务的进度条单独建立一个类继承ProgressBarBase
-2. ProgressBarBase提供的相关api，如获取总时间、获取已处理进度百分比等
+1. ProgressBar.createProgressBarByCode创建进度条
+2. ProgressBar提供的相关api，如获取总时间、获取已处理进度百分比等
 3. 参考2.2.3. 程序进行代码处理
+
+### 2.3.1. 其他-获取表头[ExcelHeaderTest]
+获取表头集合
+
+```
+    /**
+     * 获取表头List
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test01() throws Exception {
+        File file = new File(RESOURCE_PATH + "/import/模版导入(test01_import).xlsx");
+        ExcelImportParam params = new ExcelImportParam();
+        params.setHeaderRowNum(1);
+        List<String> headerRow = ExcelImportHelper.getHeaderRow(file, params);
+        System.out.println("headerRow = " + headerRow);
+    }
+```
+### 2.3.2. 其他-自定义列导入[ImportCustomColumnTest]
+
+```
+     /**
+       * 自定义列导入，excel数据解析类型为 List<Map<String,Object>> key为header，value为对应的值
+       * 
+       * @throws Exception
+       */
+      @Test
+      public void test01() throws Exception {
+          File file = new File(RESOURCE_PATH + "/import/ProgressBar.xlsx");
+          boolean b = ProcessPower.canProcess(file);
+          if (!b) {
+              throw new Exception("系统繁忙，请稍后再试");
+          }
+  
+          try{
+              String progressBarCode = "progressBar";
+  
+              progressBarService.createProgressBarByCode(progressBarCode);
+  
+              dataService.judgeFinish(progressBarCode);
+  
+              long start = System.currentTimeMillis();
+  
+              //数据转化
+              ExcelImportParam excelImportParam = new ExcelImportParam();
+              excelImportParam.setStartRowNum(1);
+  
+              //获取headerRow
+              ExcelImportParam paramForHeaderRow = new ExcelImportParam();
+              paramForHeaderRow.setHeaderRowNum(0);
+              List<String> headerRows = ExcelImportHelper.getHeaderRow(file, paramForHeaderRow);
+  
+              excelImportParam.setHeaderRows(headerRows);
+              List<Map> mapList = ExcelImportHelper.transferToList(file, Map.class, excelImportParam);
+  
+              progressBarService.setTotal(progressBarCode, mapList.size());
+              List<List<Map>> sublist = ExcelCommonUtil.sublist(mapList, 20);
+              List<Future<ExcelImportResult<Map>>> futures = new ArrayList<>();
+              for (List<Map> tempList : sublist) {
+                  futures.add(dataService.processImport2(tempList, progressBarCode));
+                  Thread.sleep(20);
+              }
+              ExcelImportResult<Map> excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
+              if (excelImportResult.isVerifyFail()) {
+                  //导出错误的数据，参考ImportProgressBarTest.exportErrorWorkBook
+              }
+          }catch (Exception e){
+              e.printStackTrace();
+          }finally {
+              ProcessPower.reduce(new FileInputStream(file).available());
+          }
+      }
+``
+### 2.3.3 其他-基于jxls的自定义列导出[ImportCustomColumnTest]
+
+```
+        /**
+         * 获取最大行
+         *
+         * @throws Exception
+         */
+        @Test
+        public void test01() throws Exception {
+            ....省略代码
+            
+            //导出自定义列示例 基于jxls
+            Map<String, Object> map = new HashMap<>();
+            headerRows.add("错误信息");
+            map.put("headers", headerRows);
+            map.put("list", mapList);
+            String templateUrl = RESOURCE_PATH + "/template/export_06.xlsx";
+            XLSTransformer transformer = new XLSTransformer();
+            transformer.transformXLS(templateUrl, map, RESOURCE_PATH + "/export/自定义列导出_ImportCustomColumnTest(test01_export).xlsx");
+
+        }
+```
+
+### 2.3.4. 其他-获取最大行[LastRowNumTest]
+
+```
+    /**
+     * 获取最大行
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test01() throws Exception {
+        File file = new File(RESOURCE_PATH + "/import/模版导入(test01_import).xlsx");
+        ExcelImportParam params = new ExcelImportParam();
+        int lastRowNum = ExcelImportHelper.getLastRowNum(file, params);
+        System.out.println("lastRowNum = " + lastRowNum);
+    }
+    
+```
+
+2.3.5. 限制系统同时处理excel的大小[ProcessPower]
+参考示例 2.3.2. 其他-自定义列导入
+
+说明：
+
+1、建议生产环境部署2G内存时，大小设置为3.5M
+
+2、调用 ProcessPower.canProcess(file) 判断是否可以处理文件，支持参数为流、文件路径、文件
+
+3、调用 ProcessPower.reduce(new FileInputStream(file).available()) 释放处理空间，支持参数为流、文件路径、文件
+
+4、注意调用ProcessPower.canProcess(file)后逻辑用try...catch...finally,避免因逻辑而导致的没有及时释放内存空间
+
 
 ## 3. 参考文档
 [EasyPoi教程](http://easypoi.mydoc.io/)

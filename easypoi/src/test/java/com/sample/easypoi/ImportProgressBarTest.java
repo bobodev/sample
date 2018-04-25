@@ -2,16 +2,17 @@ package com.sample.easypoi;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
+import cn.afterturn.easypoi.util.PoiValidationUtil;
 import com.sample.easypoi.core.*;
 import com.sample.easypoi.model.Student;
 import com.sample.easypoi.service.DataService;
-import com.sample.easypoi.service.ProgressBar;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.util.*;
@@ -23,10 +24,15 @@ public class ImportProgressBarTest extends BaseTest {
 
     @Autowired
     private DataService dataService;
+    @Autowired
+    private ProgressBarService progressBarService;
 
     @Test
     public void test01() throws Exception {
-        dataService.judgeFinish();
+        String progressBarCode = "progressBar";
+        progressBarService.createProgressBarByCode(progressBarCode);
+
+        dataService.judgeFinish(progressBarCode);
 
         long start=System.currentTimeMillis();
 
@@ -35,14 +41,34 @@ public class ImportProgressBarTest extends BaseTest {
         ExcelImportParam excelImportParam = new ExcelImportParam();
         excelImportParam.setStartRowNum(2);
         List<Student> students = ExcelImportHelper.transferToList(file, Student.class, excelImportParam);
-        ProgressBar.setTotal(students.size());
-        List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 50);
+
+        ExcelImportResult<Student> excelImportResult = new ExcelImportResult();
+        List<Student> failList = excelImportResult.getFailList();
+        //基本校验
+        students.stream().forEach(o->{
+            String errorMsg = PoiValidationUtil.validation(o, null);
+            if(!StringUtils.isEmpty(errorMsg)){
+                o.setErrorMsg(errorMsg);
+                failList.add(o);
+            }
+        });
+
+        if(excelImportResult.isVerifyFail()){//如果失败直接返回
+            if (excelImportResult.isVerifyFail()) {
+                this.exportErrorWorkBook(excelImportResult.getFailList());
+            }
+//            return;
+        }
+
+        progressBarService.setTotal(progressBarCode,students.size());
+        List<List<Student>> sublist = ExcelCommonUtil.sublist(students, 2);
         List<Future<ExcelImportResult<Student>>> futures = new ArrayList<>();
         for (List<Student> studentList : sublist) {
-            futures.add(dataService.processImport(studentList));
-            Thread.sleep(10);
+            futures.add(dataService.processImport(studentList,progressBarCode));
+            Thread.sleep(20);
         }
-        ExcelImportResult excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
+
+        excelImportResult = ExcelCommonUtil.dealFutureResult(futures);
 
         long end=System.currentTimeMillis();
         long l = end - start;
@@ -51,6 +77,8 @@ public class ImportProgressBarTest extends BaseTest {
         if (excelImportResult.isVerifyFail()) {
             this.exportErrorWorkBook(excelImportResult.getFailList());
         }
+
+        Thread.sleep(2000);
     }
 
     private void exportErrorWorkBook(List<Student> students) throws Exception {

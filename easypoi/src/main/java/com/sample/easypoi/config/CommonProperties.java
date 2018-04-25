@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "common")
 @Configuration
 public class CommonProperties {
-    private String exportDir;
 }

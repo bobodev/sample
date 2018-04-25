@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>a</title>
+</head>
+<body>
+<form>
+    <div>
+        <label>工号：</label>
+        <input type="text" name="employeeNo" value=""/>
+        <label>姓名：</label>
+        <input type="text" name="name" value=""/>
+        <input type="button" id="submit_button" value="提交"/>
+    </div>
+</form>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/store.legacy.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    $('#submit_button').click(function () {
+        store.set("a.html",{employeeNo:$('[name=employeeNo]').val(),name:$('[name=name]').val()});
+        window.location.href='b.html';
+    });
+})
+</script>
+</body>
+</html>

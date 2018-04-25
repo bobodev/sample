@@ -18,8 +18,9 @@ public class ExportTest extends BaseTest {
      */
     @Test
     public void test01() throws Exception {
+        long start = System.currentTimeMillis();
         //step1 准备数据
-        List<Student> students = new DataService().loadData(100);
+        List<Student> students = new DataService().loadData(10000);
         List<String> headers = new ArrayList<>(Arrays.asList("学生姓名", "学生性别", "出生日期"));
         //step2 构造数据和模版
         Map<String, Object> map = new HashMap<>();
@@ -33,6 +34,9 @@ public class ExportTest extends BaseTest {
         params.setColForEach(true);
         Workbook workbook = ExcelExportUtil.exportExcel(params, map);
         ExcelExportHelper.exportCommon(workbook, RESOURCE_PATH + "/export/模版导出(test01_export).xlsx");
+        long end = System.currentTimeMillis();
+        long l = end - start;
+        System.out.println("l = " + l);
     }
 
     /**
@@ -43,10 +47,10 @@ public class ExportTest extends BaseTest {
     @Test
     public void test02() throws Exception {
         //step1 准备数据
-        List<Student> students = new DataService().loadData(65535);
+        List<Student> students = new DataService().loadData(100);
         //构建动态列，注意false代表需要导出，true代表不需要导出
         boolean needName = false;
-        boolean needSex = false;
+        boolean needSex = true;
         boolean needBirthday = false;
 
         //step2 构造数据和模版

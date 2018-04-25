@@ -1,0 +1,88 @@
+/* 全体雇员 */
+.member-info{padding:30px 40px;background-color:#f5f5f5;}
+.member-info .activate,.member-info .disbled{width:10px;height:10px;display:inline-block;border-radius:50%;background-color:#47C978;margin-right:6px;}
+.member-info .disbled{background-color:#D3E6D7;}
+.regulator{position:relative;display:inline-block;cursor:pointer;display:none;}
+.administrator .regulator{display:inline-block;color:#FF6600;}
+.add-employer a{float:right;margin-top:20px;margin-bottom:6px;color:#FF6600;padding:7px 20px;background-color:#FFF2E9;}
+/*未激活雇员*/
+.all-staff .activate{width:16px;height:16px;display:inline-block;background-image:url(../img/staff-icon.png);background-position:-19px -27px;background-repeat:no-repeat;margin-right:6px;vertical-align:bottom;}
+.all-staff .disbled{width:16px;height:16px;display:inline-block;background-image:url(../img/staff-icon.png);background-position:0 -27px;background-repeat:no-repeat;margin-right:6px;vertical-align:bottom;}
+/* 雇员管理 */
+.form-group.tips{line-height:16px;margin-top:-10px;margin-bottom:10px;}
+/* 手机邮箱验证 */
+.input-msg.form-msg {
+    padding-left: 20px;
+    background: url(../img/icon-prompt.png) no-repeat;
+    color: #999;
+
+}
+.input-msg.form-msg.error {
+    padding-left: 0;
+    background-image: none;
+}
+/* 邀请历史 */
+.invite-employees{padding-bottom:28px;overflow:hidden;width:100%}
+.invite-employees .phone,.invite-employees .computer{width:50%;margin-right:20px;}
+.invite-employees .mobile,.invite-employees .email{border:1px solid #E7E7E7;position:relative;border-radius:8px;padding:10px 15px 45px 15px;}
+.invite-employees .recomend{display:block;width:40px;height:40px;position: absolute;top:0;right:5px;}
+.invite-employees .phone{width:45%;}
+/* 批量处理 */
+.form-group .input-default{font-size:14px;line-height:14px;}
+.form-group .img-loading{vertical-align:middle;margin-left:10px;display:none;}
+.form-group .form-msg.break{line-height:20px;font-size:12px;display:block;margin-left:0;font-style:normal;color:#999;}
+.form-group .form-msg.break{line-height:20px;font-size:12px;display:block;margin-left:0;font-style:normal;color:#999;}
+.form-group .form-msg.break .normal{font-style:normal;}
+.m-status-text{margin-top:16px;}
+.m-status-text .text-group{padding-top:0;padding-bottom:10px;}
+/* 批量处理导入说明 */
+.m-import-explain p{color:#666;}
+/* 设置 */
+.person-item{height:26px;line-height:26px;float:left;margin-right:10px;padding:0 10px 0 10px;background-color:#f7f7f7;position:relative;margin-bottom:5px;margin-top:5px;white-space:nowrap;}
+.setting-list .no-delete{width:16px;height:16px;vertical-align:text-bottom;margin-left:10px;display:inline-block;background:url(../img/icon-close.png) no-repeat;overflow:hidden;cursor:pointer;}
+.setting-list .delete{display:none}
+.basic-info,.extend-info{padding-left:30px;padding-top:20px;}
+.basic-info li,.extend-info li{display:inline-block;margin-right:30px;line-height:20px;font-size:14px;color:#999;margin-bottom:10px;}
+.email-phone .u-txt{width:98%;padding:20px 10px;}
+/*弹层样式*/
+.pop-bd .form-group{line-height:20px;margin-bottom:10px;}
+.pop-bd.downTemplate{padding:0 15px;}
+.downTemplate .form-group{line-height:36px;}
+.downTemplate tbody td{padding:0;border:0;line-height:28px;}
+/* 去除滚动条样式--开始
+.downTemplate .pop-message{width:550px;height:140px;overflow:hidden;border-right-width:20px;border-right-color:#fff;border-right-style:solid;}
+.pop-message .pop-message-cont{width:550px;overflow-x:hidden;overflow-y:auto;height:140px;padding-right:20px;}
+.preview-status{width:570px;height:184px;overflow:hidden;border-right-width:20px;border-right-color:#fff;border-right-style:solid;}
+.preview-status .preview-status-cont{width:570px;overflow-x:hidden;overflow-y:auto;height:184px;padding-right:20px;}
+.preview-status ul{width:570px;}
+去除滚动条样式--结束
+.preview-status li,.preview-politics li,.preview-education li{display:inline-block;padding:10px;background-color:#f7f7f7;margin-right:5px;line-height:16px;margin-left:5px;margin-bottom:10px;min-width:60px;text-align:center;}
+.preview-education li{min-width:90px;}
+.pop-ft .prev,.pop-ft .next{padding-left:0;padding-right:0;}*/
+.pop-bd .preview_mob{width:320px;height:568px;background:url(../img/preview_mob.png) no-repeat top center;overflow:hidden;}
+.preview-container{width:227px;margin-top:78px;background:#E5E5EA;border-radius:10px;padding:10px;margin-left:10px;max-height:420px;position:relative;}
+.pop-bd .preview-cont{max-height:420px;overflow:hidden;}
+.pop-bd .preview-container i{position:absolute;width:11px;height:13px;background:url(../img/icon-mob.png) no-repeat;left:-4px;bottom:-1px;}
+/* 地址 */
+.u-select .select-text.error{
+	border-color: #f00;
+}
+/* 面包屑 */
+.m-bread .c8{color:#2089ff;}
+/* 通用样式 */
+.hide{display:none;}
+.show{display:block;}
+/*外间距*/
+.ml40{margin-left:40px;}
+.mt28{margin-top:28px;}
+.mt60{margin-top:60px;}
+.mt54{margin-top:54px;}
+/*内间距*/
+.pl20{padding-left:20px;}
+.pl10{padding-left:10px;}
+.col-14{width:14em;}
+.col-offset-14{margin-left:14em;}
+.col-offset-20{margin-left:20em;}
+
+.loading-con{ padding: 25px 36px; font-size: 18px; color: #333;}
+.vm{vertical-align: middle;}

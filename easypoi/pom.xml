@@ -19,7 +19,7 @@
     <properties>
         <start-class>com.sample.easypoi.Application</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fastjson-version>1.2.16</fastjson-version>
+        <fastjson-version>1.2.40</fastjson-version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +52,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.sf.jxls</groupId>
+            <artifactId>jxls-core</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
@@ -69,7 +75,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
