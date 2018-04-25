@@ -5,6 +5,10 @@ import com.sample.scaffold.model.User;
 
 public interface IUserService {
     User findOneUser(Long id) throws Exception;
+
     User deleteUser(Long id) throws Exception;
+
     User updateUser(User user) throws Exception;
+
+    void deleteAllCache() throws Exception;
 }

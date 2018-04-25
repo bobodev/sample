@@ -1,7 +1,8 @@
-package com.sample.scaffold.service.biz;
+package com.sample.scaffold.test;
 
 import com.sample.scaffold.Application;
 import com.sample.scaffold.contract.dto.SingleDto;
+import com.sample.scaffold.service.biz.ISingleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +11,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
-public class SingleServiceTest {
+public class ValidateTest {
+
     @Autowired
     private ISingleService singleService;
 
+    /**
+     * 测试单个参数验证
+     * @throws Exception
+     */
     @Test
     public void findOneSingle() throws Exception {
         this.singleService.findOneSingle(null);
     }
 
-    @Test
-    public void deleteSingle() throws Exception {
-
-    }
-
+    /**
+     * 测试对象参数验证
+     * @throws Exception
+     */
     @Test
     public void saveSingle() throws Exception {
         SingleDto singleDto = new SingleDto();
