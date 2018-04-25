@@ -10,6 +10,7 @@
 9. [php版-我的消息](#9)
 10. [php版-帮助中心](#10)
 11. [php版-应用列表首页](#11)
+12. [php版-支付验证插件](#12)
 
 
 <h4 id="1">已经绑定手机设置支付密码</h4>
@@ -123,4 +124,21 @@ https://ecenter.guanaitong.com/index.php?wxA=Help.problem&id=4
 ```
 员工手机:
 https://mobile.guanaitong.com/index.php?wxA=Enterprise.home
+```
+
+<h4 id="12">支付验证插件</h4>
+
+```
+插件文档地址:
+http://gitlab.wuxingdev.cn/everyone/doc/blob/master/ui/plugin/plugin-pay-verify.md
+
+参考实际Java项目调用的类：
+http://gitlab.wuxingdev.cn/java/festivalMall/blob/develop/src/main/java/com/ciicgat/fm/service/PayVerifyService.java
+Java接口调用说明:
+  getCode:获取验证编号
+  getJsUrl:加载PHP的验证插件JS地址
+  verifyCode:服务器端验证code的有效性
+页面如何加载：
+  http://gitlab.wuxingdev.cn/java/festivalMall/blob/develop/src/main/webapp/WEB-INF/tpl/pay/payVerify.vm
+
 ```
