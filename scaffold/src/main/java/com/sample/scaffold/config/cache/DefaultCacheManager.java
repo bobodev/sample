@@ -28,7 +28,7 @@ public class DefaultCacheManager extends CachingConfigurerSupport {
     public static Map<String, Long> expires = new ConcurrentHashMap<>();
 
     static {
-        expires.put("scaffold", 5 * 60l);
+        expires.put("scaffold",60l);
         expires.put("user", 5 * 60l);
     }
 

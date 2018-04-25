@@ -30,8 +30,8 @@ public class RedisLockAnnoProcessor {
         String key = redisLockAnno.key();
         int expired = redisLockAnno.expired();
         //开启redis锁
-        logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
-                .append("#").append(" begin ").toString());
+//        logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
+//                .append("#").append(" begin ").toString());
         boolean lock = redisService.getLock(key, expired);
         if (!lock) {
             logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
@@ -40,15 +40,15 @@ public class RedisLockAnnoProcessor {
         }
         try {
             proceed = pjp.proceed();
-            logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
-                    .append("#").append(" end ").toString());
+//            logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
+//                    .append("#").append(" end ").toString());
         } catch (Exception e) {
             logger.error(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
                     .append("#").append(" failed at e:{} ").toString(), e);
         } finally {
             //释放redis锁
-            logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
-                    .append("#").append(" release lock ").toString());
+//            logger.info(new StringBuilder(pjp.getTarget().getClass().getSimpleName()).append(".").append(currentMethod.getName())
+//                    .append("#").append(" release lock ").toString());
             redisService.del(key);
         }
         return proceed;

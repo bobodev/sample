@@ -129,6 +129,51 @@ util包放置了一些工具类
 
 4、参照UserService基本用法
 
+5、关于过期时间
+
+设置缓存和对应的过期时间
+
+DefaultManager中指定cachename和expired
+```
+   static {
+        expires.put("scaffold",60l);
+        expires.put("user", 5 * 60l);
+   }
+```
+
+设置默认的过期时间,建议不要采用默认过期时间，为每个key设置一个独立的过期时间
+
+```
+        redisCacheManager.setDefaultExpiration(60);//设置默认过期时间为60s
+
+```
+
+
+6、手动控制缓存，可以调用Cache的相关api进行更细级别的控制。
+
+参考
+```
+
+ @Autowired
+ @Qualifier("redisCacheManager")
+ private CacheManager redisCacheManager;
+    
+ public void syncTest02() throws Exception {
+        Collection<String> cacheNames = redisCacheManager.getCacheNames();
+        System.out.println("JSON.toJSONString(cacheNames) = " + JSON.toJSONString(cacheNames));
+        Cache cache = redisCacheManager.getCache("scaffold");
+
+        User user = cache.get("6", User.class);
+        System.out.println("user = " + user);
+        if(user!=null){
+           cache.evict("6");
+            user = cache.get("6", User.class);
+            System.out.println("after user = " + user);
+        }
+    }
+
+```
+
 参考网址
 
 1.https://aggarwalarpit.wordpress.com/2017/01/25/setting-ttl-for-cacheable-spring/

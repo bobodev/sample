@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-@CacheConfig(cacheManager = "redisCacheManager",cacheNames = "user" )
+@CacheConfig(cacheManager = "redisCacheManager",cacheNames = "scaffold" )
 //@CacheConfig(cacheManager = "simpleCacheManager",cacheNames = "scaffold" )
 public class UserService implements IUserService{
 
