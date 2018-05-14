@@ -21,6 +21,7 @@
         <module>scaffold</module>
         <module>mockito-derby-test</module>
 		<module>commonView</module>
+        <module>feignExample</module>
     </modules>
 
 </project>
