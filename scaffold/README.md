@@ -53,7 +53,10 @@ dto包放置了数据传输对象，request包用于放置请求信息模型，r
 3.controller
 
 controller 内部服务的接口，依赖于contract。
-controller 下面view包用于描述跳转控制。ApiController用于描述数据接口。controller主要体现业务控制，不处理任何业务逻辑。
+
+controller ApiController用于描述数据接口。controller主要体现业务控制，尽量不处理任何业务逻辑。
+
+controller 下面schedule包用于描述定时任务相关的接口。
 
 4.model
 
@@ -63,15 +66,7 @@ model包放置了底层数据模型。是直接和数据库打交道的模型。
 
 sevice包下放置了项目中的业务代码，该模块也是主要的书写业务实现的地方。
 
-service包下分为biz、schedule、technology、thirdparty四个包
-
-biz: 主要用来实现业务，由接口和实现组成
-
-schedule: 主要用来放置一些定时任务
-
-technology: 主要用来放置技术组件
-
-thirdparty: 主要用来放置第三方的服务
+接口直接放置与service包下，命名方式为EchoService；实现类位于impl下，命名为EchoServiceImpl
 
 6.util
 
