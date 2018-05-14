@@ -19,7 +19,7 @@ public @interface RedisLockAnno {
     String key();
 
     /**
-     * 过期时间 毫秒
+     * 过期时间 秒
      *
      * @return
      */

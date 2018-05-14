@@ -8,16 +8,16 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.sample.scaffold</groupId>
-    <artifactId>scaffold</artifactId>
+    <groupId>com.sample.thread-demo</groupId>
+    <artifactId>thread-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>scaffold</name>
+    <name>thread-demo</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-        <start-class>com.sample.scaffold.Application</start-class>
+        <start-class>com.sample.thread-demo.Application</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fastjson-version>1.2.40</fastjson-version>
         <commons-lang3-version>3.4</commons-lang3-version>
@@ -98,11 +98,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.1.1</version>
@@ -124,7 +119,7 @@
     </dependencies>
 
     <build>
-        <finalName>scaffold</finalName>
+        <finalName>thread-demo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
