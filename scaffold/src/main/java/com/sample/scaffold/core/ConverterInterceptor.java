@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -28,6 +27,6 @@ public class ConverterInterceptor implements ResponseBodyAdvice {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        return JSONObject.parse(JSON.toJSONString(body, serializeConfig,SerializerFeature.PrettyFormat));
+        return JSONObject.parse(JSON.toJSONString(body, serializeConfig));
     }
 }
