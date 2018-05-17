@@ -2,8 +2,6 @@ package com.sample.scaffold.core;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.PropertyNamingStrategy;
-import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.sample.scaffold.core.converter.annotation.RequestConverterAnno;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -17,13 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class MyArgumentResolver implements HandlerMethodArgumentResolver {
-
-    public static SerializeConfig serializeConfig = new SerializeConfig();
-
-    static {
-        serializeConfig.propertyNamingStrategy = PropertyNamingStrategy.SnakeCase;
-
-    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -39,7 +30,7 @@ public class MyArgumentResolver implements HandlerMethodArgumentResolver {
         for (String key : keySet) {
             map.put(key,servletRequest.getParameter(key));
         }
-        Object object = JSONObject.parseObject(JSON.toJSONString(map, serializeConfig), parameter.getParameterType());
+        Object object = JSONObject.parseObject(JSON.toJSONString(map), parameter.getParameterType());
         return object;
     }
 }
