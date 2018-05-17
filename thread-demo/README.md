@@ -288,4 +288,4 @@ public void run(){
 ## 7. 参考
 1. [深入理解Java并发之synchronized实现原理](https://blog.csdn.net/javazejian/article/details/72828483)
 2. [新的锁定类提高了同步性 —— 但还不能现在就抛弃 synchronized](https://www.ibm.com/developerworks/cn/java/j-jtp10264/index.html)
-3.[深入理解Java内存模型（四）——volatile](http://www.infoq.com/cn/articles/java-memory-model-4)
+3. [深入理解Java内存模型（四）——volatile](http://www.infoq.com/cn/articles/java-memory-model-4)
