@@ -547,11 +547,19 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
 
 3、目前支持的方法返回值有支持String,Integer,int,Short,short,Long,long,Double,double,Float,float,Char,char,BigDecimal,List和自定义对象
 
-4、生产环境无需启用，可以使用WORKENV进行控制
+4、生产环境无需启用，可以使用WORKENV进行控制,参考：
+
+```
+   if(WorkRegion.getCurrentWorkRegion().getWorkEnv() == WorkEnv.PRODUCT){
+       return pjp.proceed();
+   }
+```
 
 示例：
 
 业务代码：MockService
+
 测试代码：MockServiceTest
+
 mock文件：resources/mockfile
 
