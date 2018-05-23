@@ -17,6 +17,7 @@
 3.12. 启用https支持
 3.13. https重定向到http
 3.14. 防重复提交
+3.15. 指定方法用mock返回值
 ```
 
 ## scaffold
@@ -537,3 +538,20 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
     }
     
 ```
+
+### 3.15. 指定方法用mock返回值
+
+1、拷贝core包中的mock包到项目的core包中，修改MockAnnoProcessor中annotation的包名
+
+2、需要mock的方法上面加上注解mockAnno，指定fileName。方法会返回resources/mockfile目录下文件名为fileName的文件内容作为返回值。
+
+3、目前支持的方法返回值有支持String,Integer,int,Short,short,Long,long,Double,double,Float,float,Char,char,BigDecimal,List和自定义对象
+
+4、生产环境无需启用，可以使用WORKENV进行控制
+
+示例：
+
+业务代码：MockService
+测试代码：MockServiceTest
+mock文件：resources/mockfile
+
