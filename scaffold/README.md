@@ -18,6 +18,7 @@
 3.13. https重定向到http
 3.14. 防重复提交
 3.15. 指定方法用mock返回值
+3.16. 集成ERROR CODE
 ```
 
 ## scaffold
@@ -563,3 +564,84 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
 
 mock文件：resources/mockfile
 
+### 3.16. 集成ERROR CODE
+
+参考文档：http://gitlab.wuxingdev.cn/everyone/doc/blob/master/code/readme.md
+
+1、 为了统一项目ERROR CODE编码，规范ERROR CODE使用规范。代码参考project-init项目
+
+2、 核心类BaseErrorCode、CommonErrorCode。参见project-init-core的errorcode包
+
+```
+public interface BaseErrorCode extends ErrorCode {
+    int SYSTEM_ERROR_TYPE=1;//不常用 系统级错误 非逻辑错误如DB宕机
+    int APPLICATION_ERROR_TYPE=2;//常用 应用级错误 主要用于前端参数错误
+    int SERVICE_ERROR_TYPE=3;//不常用 业务级错误 业务逻辑错误，service自身错误
+    int DEPENDENCY_ERROR_TYPE=4;//常用 依赖级错误 service内部调用其他服务错误
+    int BUSINESS_ERROR_TYPE=5;//常用 交互级业务提醒 正常业务逻辑，非错误，需告知用户，如库存不足、订单重复提交等
+}
+```
+
+```
+public enum CommonErrorCode implements BaseErrorCode {
+    SYSTEM_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 99999, "系统错误"),
+    UNKNOWN_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00000, "未知异常"),
+    DB_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00010, "DB连接异常"),
+    REDIS_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00020, "REDIS连接异常"),
+    KAFKA_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00030, "KAFKA连接异常"),
+    MQ_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00040, "MQ连接异常"),
+    IP_LIMIT_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00050, "访问IP受限"),
+    PERMISSION_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00051, "没有访问权限"),
+    VISIT_FREQUENCY_ERROR(CommonErrorCode.SYSTEM_ERROR_TYPE, 00052, "访问频次过高");
+
+    public static int appCode=0;//表示业务系统代号 4位
+
+    private int errorType;
+
+    private int bizCode;
+
+    private String message;
+
+    CommonErrorCode(int errorType, int bizCode, String message) {
+        this.errorType = errorType;
+        this.bizCode = bizCode;
+        this.message = message;
+    }
+
+    public int getErrorCode() {
+        if (appCode == 0) {
+            try {
+                throw new Exception("没有设置业务系统代号");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return 1000000 * appCode + 100000 * errorType + bizCode;
+    }
+
+    public String getErrorMsg() {
+        return message;
+    }
+}
+
+```
+
+3、 使用步骤：
+
+* 配置 ErrorCodeFactory，主要用于初始化业务系统代码
+
+```
+
+public class ErrorCodeFactory {
+    static {
+        CommonErrorCode.appCode=0;//设置业务系统代号 4位
+        BusinessErrorCode.appCode=0;//设置业务系统代号 4位
+    }
+}
+
+```
+
+* CommonErrorCode 类用于放置基础错误码，BusinessErrorCode 类用于定义自定义错误码
+
+* ErrorCodeFactory、BusinessErrorCode均放置于业务代码包errorcode包下
