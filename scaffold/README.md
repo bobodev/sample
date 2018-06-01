@@ -20,6 +20,7 @@
 3.15. 指定方法用mock返回值
 3.16. 集成ERROR CODE
 3.17. 第三方jar包处理规范
+3.18. 集成java开放常用的工具类库
 ```
 
 ## scaffold
@@ -647,7 +648,7 @@ public class ErrorCodeFactory {
 
 * ErrorCodeFactory、BusinessErrorCode均放置于业务代码包errorcode包下
 
-3.17. 第三方jar包处理规范
+### 3.17. 第三方jar包处理规范
 
 主要描述如何处理第三方jar包
 
@@ -690,3 +691,20 @@ public class ErrorCodeFactory {
 * 附:MVC解决方案
 
 mvc项目直接将项目放置于WEB-INF/lib包下就可以了
+
+### 3.18. 集成java开放常用的工具类库
+
+前面研究了一下Hutool这个java开发工具类库，感觉用起来还是很方便的，大家可以尝试用一下。文档地址：http://hutool.mydoc.io/
+
+使用步骤：
+
+1、 pom.xml 中加入 依赖
+
+```
+<dependency>
+    <groupId>cn.hutool</groupId>
+    <artifactId>hutool-all</artifactId>
+    <version>4.0.12</version>
+</dependency>
+```
+
