@@ -19,6 +19,7 @@
 3.14. 防重复提交
 3.15. 指定方法用mock返回值
 3.16. 集成ERROR CODE
+3.17. 第三方jar包处理规范
 ```
 
 ## scaffold
@@ -645,3 +646,47 @@ public class ErrorCodeFactory {
 * CommonErrorCode 类用于放置基础错误码，BusinessErrorCode 类用于定义自定义错误码
 
 * ErrorCodeFactory、BusinessErrorCode均放置于业务代码包errorcode包下
+
+3.17. 第三方jar包处理规范
+
+主要描述如何处理第三方jar包
+
+* spring boot项目：
+
+1、所第三方的JAR放到项目下，建议直接放置在每个module的直接目录下即src目录平行下的lib包中，没有则新建。如 /lib/*jar
+
+2、将第三方jar加入maven依赖
+
+```
+<dependency>
+    <groupId>yourGroupId</groupId>
+    <artifactId>yourArtifactId</artifactId>
+    <version>1.0</version>
+    <scope>system</scope>
+    <systemPath>${basedir}\lib\*.jar</systemPath>
+</dependency>
+```
+
+3、修改pom文件
+
+```
+<build>
+    <resources>
+        <resource>
+            <directory>src/lib</directory>
+            <targetPath>BOOT-INF/lib/</targetPath>
+            <includes>
+                <include>**/*.jar</include>
+            </includes>
+        </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <targetPath>BOOT-INF/classes/</targetPath>
+        </resource>
+    </resources>
+</build>
+```
+
+* 附:MVC解决方案
+
+mvc项目直接将项目放置于WEB-INF/lib包下就可以了
