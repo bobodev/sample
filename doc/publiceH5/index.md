@@ -86,6 +86,7 @@ https://passport.guanaitong.com?redirect_url=xxxxx
 企业（手机/PC）：
 https://admin.guanaitong.com?redirect_url=xxxxx
 注：redirect_url是返回页面地址
+会带参数 authCode=b2027b049082b8349d85674495415ab3
 ```
 
 <h4 id="8">个人中心</h4>
